@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPOT 2026 — 10-minute Sharing and Word Outline</title>
+<style>
+  :root {
+    --navy: #142d4e;
+    --blue: #2864b4;
+    --teal: #087f8c;
+    --green: #337b54;
+    --orange: #bf641a;
+    --ink: #263d56;
+    --muted: #56677b;
+    --line: #d5deea;
+    --pale: #f3f6fa;
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--pale);
+    color: var(--ink);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+  }
+  main {
+    max-width: 1260px;
+    margin: auto;
+    padding: 30px 22px 60px;
+  }
+  h1, h2, h3 { color: var(--navy); }
+  h1 { font-size: 30px; line-height: 1.2; margin: 0 0 12px; }
+  h2 { font-size: 21px; margin: 0 0 15px; }
+  h3 { font-size: 17px; margin: 0 0 8px; }
+  p { margin: 8px 0 14px; }
+  section {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px;
+    margin: 20px 0;
+  }
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #aebdd0;
+    border-radius: 5px;
+    color: var(--ink);
+    font: inherit;
+    background: white;
+  }
+  textarea { resize: vertical; min-height: 90px; }
+  input[type="file"] { width: 100%; margin: 8px 0; }
+  input[type="checkbox"] { margin-right: 7px; }
+  button, a.download-link {
+    display: inline-block;
+    font: inherit;
+    padding: 11px 17px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--navy);
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  button.secondary {
+    color: var(--navy);
+    background: #edf2f8;
+    border: 1px solid var(--line);
+  }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  button:focus-visible, a:focus-visible, input:focus-visible,
+  textarea:focus-visible, summary:focus-visible {
+    outline: 3px solid #85aee1;
+    outline-offset: 2px;
+  }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .full { grid-column: 1 / -1; }
+  .small { font-size: 13px; color: var(--muted); }
+  .notice, .warning {
+    padding: 13px 16px;
+    border-left: 4px solid var(--blue);
+    background: #edf4fc;
+    margin: 15px 0;
+  }
+  .warning { border-color: var(--orange); background: #fff5e8; }
+  .badge {
+    display: inline-block;
+    border: 1px solid var(--line);
+    background: white;
+    border-radius: 20px;
+    padding: 5px 12px;
+    margin: 0 7px 7px 0;
+    font-size: 13px;
+    font-weight: bold;
+  }
+  #assetGrid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+  .asset-card {
+    grid-column: span 4;
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .asset-card.pair { grid-column: span 6; }
+  .asset-card img {
+    display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    border: 1px solid var(--line);
+    background: #edf2f7;
+    margin: 10px 0;
+  }
+  .asset-card img[hidden] { display: none; }
+  .empty {
+    min-height: 150px;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    border: 1px dashed #9bafc6;
+    background: #f5f7fa;
+    color: var(--muted);
+    text-align: center;
+    font-size: 13px;
+  }
+  .empty[hidden] { display: none; }
+  .crop-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+    margin: 12px 0;
+  }
+  .crop-grid label { font-size: 12px; }
+  .crop-grid input { padding: 7px; }
+  .check-label { font-weight: normal; font-size: 13px; margin-top: 12px; }
+  details { margin: 12px 0; }
+  summary { cursor: pointer; font-weight: bold; }
+  #plan { display: grid; gap: 10px; }
+  .plan-item {
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 12px 15px;
+    margin: 0;
+  }
+  .plan-time {
+    font-size: 12px;
+    color: var(--teal);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .plan-item ul { margin: 8px 0; padding-left: 22px; }
+  .plan-item p { margin: 9px 0; }
+  .script {
+    padding: 12px;
+    background: #f4f7fb;
+    border-left: 3px solid var(--teal);
+  }
+  #checklist { padding-left: 22px; }
+  #checklist li { margin: 4px 0; }
+  #status {
+    min-height: 58px;
+    padding: 14px;
+    white-space: pre-wrap;
+    border-radius: 6px;
+    background: #edf2f8;
+    margin-top: 15px;
+  }
+  #status.error { background: #fff0ef; color: #8b2520; }
+  #status.success { background: #eef8f0; color: #24603b; }
+  #downloads a { margin: 10px 10px 0 0; }
+  #libraryStates { margin-bottom: 12px; }
+  .review label { font-weight: normal; margin: 9px 0; }
+  .refs li { margin-bottom: 12px; overflow-wrap: anywhere; }
+  .refs a { color: var(--blue); }
+  .primary-export { font-weight: bold; padding: 14px 21px; }
+  .busy-note { display: none; }
+  body.busy .busy-note { display: block; }
+  @media (max-width: 1000px) {
+    .asset-card { grid-column: span 6; }
+  }
+  @media (max-width: 680px) {
+    main { padding: 22px 12px 40px; }
+    h1 { font-size: 25px; }
+    section { padding: 17px; }
+    .fields { grid-template-columns: 1fr; }
+    .asset-card, .asset-card.pair { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>SPOT 2026 — A 10-minute Teaching Sharing</h1>
+  <p>
+    An editable PowerPoint and a matching Word speaker outline:
+    lesson design, GenAI integration, thinking goals, visible student actions,
+    Scientific Practices, and reflective next steps.
+  </p>
+
+  <div class="row">
+    <span class="badge" id="deckBadge">11 main slides</span>
+    <span class="badge">16:9 widescreen</span>
+    <span class="badge">Editable native PowerPoint objects</span>
+    <span class="badge">PPTX speaker notes + DOCX outline</span>
+  </div>
+
+  <div class="notice">
+    <strong>How to use:</strong>
+    enter confirmed metadata, select the original evidence files, inspect any
+    crops, and use the two download buttons. The timed outline below is a
+    rehearsal guide; slides do not advance automatically.
+  </div>
+
+  <div class="warning">
+    <strong>Award-scheme scope:</strong>
+    the supplied classroom case is Form 5 Physics with 30 students.
+    EDB's reference teaching-plan scheme is for Science S1–3.
+    Confirm the exact scheme, curriculum scope and submission requirements.
+    This sharing application does not claim eligibility, an award result,
+    or compliance with an entry template.
+  </div>
+
+  <section>
+    <h2>1. Confirm the presentation details</h2>
+    <div class="fields">
+      <div class="full">
+        <label for="presentationTitle">Presentation title</label>
+        <input id="presentationTitle" type="text" maxlength="130">
+      </div>
+      <div>
+        <label for="author">Presenter / author</label>
+        <input id="author" type="text" maxlength="90"
+          placeholder="Enter confirmed presenter name">
+      </div>
+      <div>
+        <label for="affiliation">School / affiliation</label>
+        <input id="affiliation" type="text" maxlength="140"
+          placeholder="Enter confirmed school or affiliation">
+      </div>
+      <div class="full">
+        <label for="scheme">Exact award-scheme or event name — optional</label>
+        <input id="scheme" type="text" maxlength="160"
+          placeholder="If blank: 2026 Award-Scheme Sharing">
+      </div>
+    </div>
+    <p class="small">
+      Missing author and affiliation are exported as visible placeholders.
+      No school name, award result, logo, contact details or student quotations
+      are invented.
+    </p>
+  </section>
+
+  <section>
+    <h2>2. Add the authentic evidence</h2>
+    <p>
+      Select local PNG or JPEG files. Your images from the conversation are not
+      automatically accessible to this HTML file. Prefer the original images
+      or carefully pre-cropped replacements.
+    </p>
+    <div class="notice">
+      <strong>Local processing:</strong>
+      this application's image code reads files as data URLs and does not upload
+      them. Internet access is required only to load the pinned JavaScript
+      libraries. There are no analytics or external image requests.
+    </div>
+    <div class="warning">
+      Keep the simulation, chatbot conversation, Error Detective worksheet and
+      matched before/after pair as separate classroom examples.
+      For the matched pair, use the two photographs in the before/after document,
+      not the unrelated first-attempt photograph beneath the chatbot screenshot.
+      Exclude the percentage infographic from the Error Detective crop.
+    </div>
+    <div id="assetGrid"></div>
+    <p class="small">
+      Crops select original pixels without enhancement or enlargement.
+      “Pixels per slide inch” is only a warning heuristic; it does not certify
+      legibility on a projected screen or restore lost detail.
+    </p>
+  </section>
+
+  <section>
+    <h2>3. Adjust the readable evidence captions</h2>
+    <div class="fields">
+      <div>
+        <label for="captionSimulation">Simulation — slide 6</label>
+        <textarea id="captionSimulation" maxlength="260"></textarea>
+      </div>
+      <div>
+        <label for="captionAI">Guided AI checking — slide 7</label>
+        <textarea id="captionAI" maxlength="300"></textarea>
+      </div>
+      <div>
+        <label for="captionError">Error Detective — slide 8</label>
+        <textarea id="captionError" maxlength="200"></textarea>
+      </div>
+      <div>
+        <label for="captionRevision">Matched revision pair — slide 9</label>
+        <textarea id="captionRevision" maxlength="280"></textarea>
+      </div>
+    </div>
+    <p class="small">
+      Keep captions short. Font sizes are explicit; the application does not
+      silently shrink edited text. Longer text can trigger a layout warning.
+    </p>
+  </section>
+
+  <section>
+    <h2>4. Optional confirmed student response or teacher observation</h2>
+    <p class="small">
+      The default presentation reports visible actions only. It does not claim
+      enjoyment, confidence, improved attainment or class-wide engagement.
+      Add a short, anonymised observation only if you can confirm its wording
+      and source.
+    </p>
+    <div class="fields">
+      <div class="full">
+        <label for="feedback">Confirmed qualitative response / observation</label>
+        <input id="feedback" type="text" maxlength="110"
+          placeholder="Optional: a short, evidence-backed observation">
+      </div>
+      <div class="full">
+        <label for="feedbackSource">Source / context — do not include student names</label>
+        <input id="feedbackSource" type="text" maxlength="110"
+          placeholder="For example: anonymised exit slip, lesson observation or interview">
+      </div>
+      <div class="full">
+        <label class="check-label">
+          <input id="feedbackConfirmed" type="checkbox">
+          I confirm the wording, source and permission to share.
+        </label>
+      </div>
+    </div>
+    <p class="small">
+      The response is included only when both fields and the confirmation are
+      complete. It is labelled as presenter-supplied, not independently verified.
+    </p>
+  </section>
+
+  <section>
+    <h2>5. Timed sharing outline</h2>
+    <p id="timingSummary" class="small"></p>
+    <div id="plan"></div>
+    <p class="small">
+      This is a content and rehearsal outline, not a rendered slide preview.
+      The exported PPTX is the authoritative layout.
+      Reflection statements are design interpretations and proposed next steps;
+      amend them to match your confirmed teaching experience.
+    </p>
+  </section>
+
+  <section>
+    <h2>6. Generate the files</h2>
+    <div id="libraryStates" class="small"></div>
+    <button id="retryLibraries" type="button" class="secondary">
+      Retry library loading
+    </button>
+    <ul id="checklist"></ul>
+    <div class="row">
+      <button id="downloadPptx" type="button" class="primary-export" disabled>
+        Download editable PowerPoint
+      </button>
+      <button id="downloadDocx" type="button" class="primary-export" disabled>
+        Download sharing outline DOCX
+      </button>
+    </div>
+    <p class="small busy-note">Generating your file. Please wait…</p>
+    <div id="status" role="status" aria-live="polite">
+      Loading dependencies. You may enter details and inspect the outline now.
+    </div>
+    <div id="downloads"></div>
+    <p class="small">
+      Recently generated download links remain here if your browser blocks an
+      automatic download. Regenerate after changing content.
+      This page does not save your session when closed or refreshed.
+    </p>
+  </section>
+
+  <section>
+    <h2>7. Final manual review</h2>
+    <div id="manualReview" class="review"></div>
+    <div class="warning">
+      Automated geometry and text estimates cannot fully validate Office
+      rendering. This application exports PPTX and DOCX, not a validated PDF.
+      It does not certify press readiness, CMYK colour, award eligibility,
+      scientific learning gains, or submission compliance.
+    </div>
+  </section>
+
+  <section>
+    <h2>Framework references</h2>
+    <p class="small">
+      These official references inform the pedagogical mapping, not the
+      authenticity or outcome of the supplied classroom case.
+      Full references are also included in the DOCX and relevant speaker notes.
+    </p>
+    <ol id="referenceList" class="refs small"></ol>
+  </section>
+</main>
+
+<script>
+"use strict";
+
+/* ============================================================
+   1. CONFIGURATION
+   Presentation positions are in inches.
+   ============================================================ */
+
+const CONFIG = {
+  width: 40 / 3,
+  height: 7.5,
+  margin: 0.55,
+  font: "Arial",
+  pptxName: "SPOT_2026_10min_Sharing.pptx",
+  docxName: "SPOT_2026_Sharing_Outline.docx",
+  recommendedPixelsPerInch: 120,
+  colors: {
+    navy: "142D4E",
+    body: "263D56",
+    muted: "56677B",
+    line: "D5DEEA",
+    pale: "F3F6FA",
+    white: "FFFFFF",
+    S: "2864B4",
+    P: "087F8C",
+    O: "337B54",
+    T: "BF641A",
+    lightS: "EDF3FC",
+    lightP: "EAF6F7",
+    lightO: "EFF7F1",
+    lightT: "FFF4E9"
+  }
+};
+CONFIG.innerWidth = CONFIG.width - 2 * CONFIG.margin;
+
+/* ============================================================
+   2. CONTENT — EDIT WORDING HERE
+   Shared by the PPTX, speaker notes, browser outline and DOCX.
+   No layout changes are needed to edit these strings.
+   ============================================================ */
+
+const CONTENT = {
+  title: "SPOT: Making Physics Learning Visible",
+  subtitle:
+    "Teacher-designed simulations, guided AI checking\n" +
+    "and error-informed follow-up",
+  strapline:
+    "Make the first attempt visible.\n" +
+    "Probe the reasoning.\n" +
+    "Track the revision.",
+  context: "30 Form 5 Physics students",
+  topics:
+    "Projectile motion example; moments and the ideal gas law also implemented.",
+  defaultScheme: "2026 Award-Scheme Sharing",
+
+  contextCards: [
+    {
+      title: "The visibility gap",
+      body:
+        "A final answer can hide:\n" +
+        "• the chosen positive direction\n" +
+        "• the model and shared time\n" +
+        "• changes after feedback"
+    },
+    {
+      title: "The lesson aim",
+      body:
+        "Choose a sign convention.\n" +
+        "Resolve horizontal and vertical motion.\n" +
+        "Use one shared time.\n" +
+        "Explain and test the model."
+    }
+  ],
+  preparationLabel: "Teacher preparation — goals and boundaries remain teacher-led",
+  preparation: [
+    "Identify the\nconceptual difficulty",
+    "Develop simulation\nideas with AI",
+    "Configure\nguided checking",
+    "Prepare tasks +\nerror categories"
+  ],
+
+  stages: [
+    {
+      letter: "S",
+      title: "Simulate Phenomena",
+      body: "Make relationships visible and verify calculated models."
+    },
+    {
+      letter: "P",
+      title: "Probe Thinking",
+      body: "Focused hints on the first attempt, not the final answer."
+    },
+    {
+      letter: "O",
+      title: "Observe Learning Status",
+      body: "Identify individual difficulties and recurring errors."
+    },
+    {
+      letter: "T",
+      title: "Track Effort, Participation and Growth",
+      body: "Record attempts and compare revisions in student models."
+    }
+  ],
+  recurring:
+    "Recurring framework—not a single student’s evidence trail.",
+
+  genaiModes: [
+    {
+      title: "1 · No GenAI",
+      body: "Used: students construct an initial model before guided checking."
+    },
+    {
+      title: "2 · GenAI-assisted idea generation",
+      body: "Teacher preparation uses AI ideas; student use is not documented."
+    },
+    {
+      title: "3 · GenAI-assisted editing",
+      body: "Closest fit: feedback on existing work, followed by student revision."
+    },
+    {
+      title: "4 · AI task completion + evaluation",
+      body: "Not the lesson design: AI is not asked to complete the whole task."
+    }
+  ],
+  modesBoundary:
+    "Teacher AI preparation ≠ student Mode 2; simulation ≠ GenAI by default.",
+
+  thinking: [
+    {
+      title: "Scientific thinking",
+      body:
+        "Explain the gravity sign; compare a prediction with the trajectory.",
+      status: "Visible: a targeted sign correction",
+      color: "S"
+    },
+    {
+      title: "Computational thinking",
+      body:
+        "Decompose the motion; keep one time variable; diagnose and debug.",
+      status: "A model-based opportunity, not a gain score",
+      color: "P"
+    },
+    {
+      title: "Creative thinking",
+      body:
+        "Next: compare two valid modelling approaches and justify an improvement.",
+      status: "Proposed extension—not yet evidenced",
+      color: "T"
+    }
+  ],
+  thinkingBoundary:
+    "Design opportunities are not proof of gains; a sign correction is not proof of originality.",
+
+  captions: {
+    simulation:
+      "Students enter a calculated launch speed, compare trajectory and target, " +
+      "and inspect attempt feedback.",
+    ai:
+      "Identifies the gravity-sign mismatch, explains the convention and asks " +
+      "for one revision. No final numerical answer is supplied.",
+    error:
+      "Student identifies a direction/sign error on the worksheet.",
+    revision:
+      "The paired work changes a positive gravitational term to a negative one, " +
+      "consistent with taking upward as positive."
+  },
+
+  simulationHeading: "Calculate first.\nThen verify.",
+  simulationLimit: "Not independent real-world validation.",
+  aiQuote:
+    "“Can you rewrite just the vertical equation with the correct sign?”",
+  aiLimit: "Explanatory guidance + a question—not purely Socratic.",
+  equationLabel: "Upward positive:",
+  equationText: "Upward positive: aᵧ = −9.81 m s⁻²",
+
+  errorSelected: "Selected: Direction / sign",
+  categories: [
+    "Height / displacement",
+    "Formula / model",
+    "Direction / sign",
+    "Shared time",
+    "Algebra / calculation"
+  ],
+  errorLimit:
+    "Separate worksheet example. Chat-record analysis also informs recurring-error identification.",
+
+  initialLabel: "Initial model",
+  revisedLabel: "Revised model",
+  revisionLimit:
+    "Targeted correction—not an entirely error-free solution or proof of long-term mastery.",
+
+  learningModes: [
+    {
+      title: "Passive (individual)",
+      body: "Reading a hint alone does not reveal the student’s reasoning."
+    },
+    {
+      title: "Active (individual)",
+      body: "Selecting an error category is a visible action in the worksheet."
+    },
+    {
+      title: "Constructive (individual)",
+      body: "Need a reasoned model explanation; a sign edit alone is insufficient."
+    },
+    {
+      title: "Interactive (group)",
+      body: "Need peer co-construction; AI chat is not evidence of group reasoning."
+    }
+  ],
+  noStudentVoice:
+    "Student attitudes were not measured in the supplied evidence; artefacts " +
+    "show actions, not enjoyment or confidence.",
+
+  reflectionHeaders: ["Challenge to monitor", "Suggested response"],
+  reflections: [
+    [
+      "AI accuracy / over-helping",
+      "Require the first attempt; teacher-test feedback; check signs and units."
+    ],
+    [
+      "Workload, access and privacy",
+      "Pilot one task; use approved settings and anonymised evidence; keep a paper fallback."
+    ],
+    [
+      "Transfer and evidence quality",
+      "Add a no-AI transfer task, explanation and student feedback; define any coding denominator."
+    ]
+  ],
+  loopSteps: ["Attempts", "Error evidence", "Teacher discussion", "Revision"],
+  closing: "AI checks. Students think. Teachers judge.",
+  lessonEnd:
+    "Around 10 minutes before the lesson ends: verify models and discuss one common error.",
+
+  eligibilityNote:
+    "Presenter planning note: the supplied case is Form 5 Physics. The EDB " +
+    "reference scheme is for Science (S1–3). Confirm the exact award scheme, " +
+    "curriculum scope, permitted branding, evidence permissions and submission " +
+    "requirements. This sharing deck is not a substitute for the required lesson plan.",
+
+  evidenceNote:
+    "Teacher-developed classroom practice. Evidence consists of anonymised " +
+    "student artefacts and teacher analysis of chat records. Separate panels " +
+    "are not one student’s continuous learning record. The examples do not " +
+    "establish causal AI effects or long-term gains. The cohort size of 30 is " +
+    "not a denominator for coded errors.",
+
+  futureEvaluation: [
+    "Collect a short student explanation of why the model changed, not only the revised equation.",
+    "Use an independent no-AI transfer or exit task to examine application beyond guided correction.",
+    "Collect anonymised student feedback without assuming satisfaction from visible participation.",
+    "If reporting error frequencies, define the unit of analysis, coding rules, denominator and counting method.",
+    "Collect peer-discussion evidence before claiming interactive group reasoning."
+  ],
+
+  references: [
+    {
+      id: "R1",
+      title: "Education Bureau — Modes of Application of GenAI in Science Lessons",
+      url:
+        "https://www.edb.gov.hk/attachment/en/curriculum-development/kla/" +
+        "science-edu/ai-for-sci/Modes_of_Application_of_GenAI_in_Science_lessons.pdf"
+    },
+    {
+      id: "R2",
+      title: "Education Bureau — Learning Modes of Scientific Practices",
+      url:
+        "https://www.edb.gov.hk/attachment/en/curriculum-development/kla/" +
+        "science-edu/ai-for-sci/Learning_Modes_of_Scientific_Practices.pdf"
+    },
+    {
+      id: "R3",
+      title:
+        "Education Bureau — Science (S1–3) Teaching Plan Design Award Scheme: " +
+        "Appendix 2, relevant information of the judging criteria",
+      url:
+        "https://www.edb.gov.hk/attachment/en/curriculum-development/kla/" +
+        "science-edu/tpdawardscheme/Appendix2_Eng.pdf"
+    },
+    {
+      id: "R4",
+      title:
+        "Education Bureau — Science (S1–3) Teaching Plan Design Award Scheme: " +
+        "scheme details",
+      url:
+        "https://www.edb.gov.hk/attachment/en/curriculum-development/kla/" +
+        "science-edu/tpdawardscheme/Teaching_plan_design_award_scheme_Eng.pdf"
+    }
+  ],
+
+  review: [
+    "Confirm presenter, school and exact award-scheme or event name.",
+    "Check curriculum scope and eligibility; do not present Form 5 evidence as an S1–3 entry without approval.",
+    "Confirm permission, anonymity and relevance of all evidence images.",
+    "Keep the AI exchange, worksheet and matched work pair as separate examples.",
+    "Check that all slide text, diagrams, arrows and equations remain editable.",
+    "Check slide text wrapping, clipping and legibility in PowerPoint.",
+    "Check signs, subscript y, superscript −2 and units in the equation.",
+    "Inspect image proportions, crops, handwriting and selected category.",
+    "Do not add unsupported percentages, attitude claims or causal learning effects.",
+    "Distinguish documented actions from interpretations and proposed extensions.",
+    "Rehearse to 10 minutes; Q&A is not included in the running order.",
+    "Check the DOCX pagination and any PDF export separately."
+  ],
+
+  slides: [
+    {
+      kind: "cover",
+      section: "THE SCHOOL-DEVELOPED LESSON",
+      title: "SPOT: Making Physics Learning Visible",
+      seconds: 30,
+      message:
+        "Make the first attempt, reasoning and revision visible without handing thinking to AI.",
+      points: [
+        "Teacher-developed framework implemented with 30 Form 5 Physics students.",
+        "Projectile motion is the sharing example; other implemented topics include moments and the ideal gas law.",
+        "The focus is feedback design and visible evidence, not a claim of an AI-caused attainment gain."
+      ],
+      cue: "Open with the SPOT title and the attempt–reasoning–revision strapline.",
+      script:
+        "Today I will share SPOT, a teacher-developed framework implemented " +
+        "with 30 Form 5 Physics students. The aim is not to let AI solve physics " +
+        "for students. It is to make the first attempt, the reasoning and the " +
+        "revision visible. I will use projectile motion to show how simulation, " +
+        "guided checking and teacher follow-up can work together.",
+      transition: "First, what was difficult to see in ordinary student answers?",
+      boundary:
+        "No award result or scheme eligibility has been supplied. Author and school must be confirmed.",
+      refs: []
+    },
+    {
+      kind: "context",
+      section: "LESSON PROBLEM AND PREPARATION",
+      title: "Start with a model—not an AI answer",
+      seconds: 45,
+      message:
+        "Students must reveal their modelling decisions before they receive guided checking.",
+      points: [
+        "Final answers can conceal signs, assumptions, decomposition and shared time.",
+        "The lesson asks students to construct, explain and test a projectile-motion model.",
+        "The teacher identifies the difficulty, develops simulation ideas with AI and configures guided checking."
+      ],
+      cue:
+        "Contrast the visibility gap with the modelling goal; briefly follow the teacher-preparation workflow.",
+      script:
+        "A final numerical answer can hide important decisions: which direction " +
+        "is positive, how the motion is split into components, and whether both " +
+        "equations use the same time. The lesson therefore starts with an " +
+        "initial student model. Before the lesson, the teacher identifies the " +
+        "conceptual difficulty, develops simulation ideas with AI, configures " +
+        "guided checking on goodclass.ai, and prepares tasks and diagnostic " +
+        "categories. The teacher sets the goals and feedback boundaries. " +
+        "Students remain responsible for constructing the first solution.",
+      transition: "SPOT organises that design into a recurring framework.",
+      boundary:
+        "Teacher preparation is not evidence that students generated ideas with GenAI.",
+      refs: []
+    },
+    {
+      kind: "framework",
+      section: "THE SPOT FRAMEWORK",
+      title: "SPOT structures the feedback loop",
+      seconds: 50,
+      message:
+        "The four stages are a recurring teaching framework, not a reconstructed individual journey.",
+      points: [
+        "S makes phenomena and calculated models visible.",
+        "P checks the first attempt with focused guidance; O identifies learning difficulties.",
+        "T records attempts and compares revisions without treating them as proof of long-term growth."
+      ],
+      cue: "Move across S, P, O and T; point to the native return connector.",
+      script:
+        "S means Simulate Phenomena: make relationships visible and verify a " +
+        "calculated model. P means Probe Thinking: use focused hints and questions " +
+        "on the first attempt, rather than supply a final answer. O means " +
+        "Observe Learning Status: identify individual difficulties and recurring " +
+        "error patterns. T means Track Effort, Participation and Growth: retain " +
+        "attempts and compare revisions. These are recurring teaching functions. " +
+        "They do not mean that the separate evidence examples shown later " +
+        "belong to one student. Nor does an attempt count, by itself, establish " +
+        "engagement or durable learning.",
+      transition: "Where exactly is GenAI used, and where is it deliberately not used?",
+      boundary:
+        "Do not connect the separate classroom images into one student’s progression.",
+      refs: []
+    },
+    {
+      kind: "modes",
+      section: "HOW GENAI IS INTEGRATED",
+      title: "Use GenAI selectively—not at every step",
+      seconds: 65,
+      message:
+        "The closest student-use mapping is checking and revising existing work; the first attempt remains AI-free.",
+      points: [
+        "Mode 1 describes the initial task without GenAI.",
+        "Teacher AI-supported preparation is distinct from student idea generation.",
+        "Guided checking is closest to Mode 3; full AI task completion is not the lesson design."
+      ],
+      cue: "Use the four native cards; distinguish resource creation from student tool use.",
+      script:
+        "I use the EDB application modes as an interpretive reference, not as " +
+        "a claim of formal certification. The first attempt is a deliberate " +
+        "no-GenAI stage. AI also supports the teacher in developing simulation " +
+        "ideas, but that is not evidence of student Mode 2 activity. During " +
+        "guided checking, students bring existing work and are asked to revise " +
+        "it. This is closest to Mode 3, provided students evaluate the feedback " +
+        "against physics rather than copy it. The lesson is not designed around " +
+        "AI completing the entire task. Finally, a simulation is not GenAI by " +
+        "default: here, its classroom role is to test a calculated model " +
+        "against a displayed trajectory.",
+      transition: "This gives us three thinking goals—but not equal evidence for all three.",
+      boundary:
+        "Application-mode mapping is the presenter’s interpretation. Student Mode 2 use is not documented.",
+      refs: ["R1"]
+    },
+    {
+      kind: "thinking",
+      section: "SCIENTIFIC, CREATIVE AND COMPUTATIONAL THINKING",
+      title: "Three thinking goals, different evidence",
+      seconds: 60,
+      message:
+        "Scientific and computational opportunities are explicit; creative thinking needs a stronger student-design task.",
+      points: [
+        "Scientific: explain the sign convention and compare prediction with a modelled trajectory.",
+        "Computational: decompose the task, share the time variable and debug a model; coding is not required.",
+        "Creative: propose comparing valid approaches as a next iteration, not an established outcome."
+      ],
+      cue: "Read the three cards as design goals with different evidence strengths.",
+      script:
+        "The design connects to three thinking dimensions. Scientific thinking " +
+        "is foregrounded when students justify the gravity sign and compare " +
+        "a prediction with the trajectory. Computational thinking appears in " +
+        "decomposing horizontal and vertical motion, maintaining a shared time " +
+        "variable, and diagnosing a model error. It is not simply a synonym " +
+        "for programming. Creative thinking is the less-developed evidence " +
+        "area here. A useful next task is to compare two valid modelling " +
+        "approaches and justify an improvement. The supplied work does not " +
+        "show that task, so I would present it as an extension. Correcting " +
+        "one sign is not proof of originality or measured thinking gains.",
+      transition: "Let us look at the first separate classroom example: simulation verification.",
+      boundary:
+        "These are design alignments and opportunities, not quantified gains in the three thinking dimensions.",
+      refs: ["R3"]
+    },
+    {
+      kind: "simulation",
+      section: "CLASSROOM EXAMPLE A — S",
+      title: "S — Calculate first, then verify",
+      seconds: 55,
+      message:
+        "The simulation checks an already calculated model and makes attempt feedback visible.",
+      points: [
+        "Students calculate before entering a launch speed.",
+        "The interface shows trajectory, target and attempt feedback.",
+        "A mismatch is useful evidence to inspect, not an artificial success indicator."
+      ],
+      cue:
+        "Show the authentic simulation screenshot; point to the trajectory, target and feedback without editing them.",
+      script:
+        "This screenshot shows the simulation used for verification. Students " +
+        "first calculate a launch speed, then enter it and compare the resulting " +
+        "trajectory with the target. The interface makes attempt feedback " +
+        "visible. That feedback is not a replacement for explanation: students " +
+        "still need to inspect the assumptions and equations behind the input. " +
+        "A mismatch can become evidence for further checking rather than just " +
+        "another guess. We should also keep the claim narrow: agreement with " +
+        "a simulation is model verification, not independent validation of " +
+        "real-world behaviour or proof that AI caused a learning gain.",
+      transition: "A second example shows the kind of checking feedback students receive.",
+      boundary:
+        "This is a separate example from the AI conversation, worksheet and matched work pair.",
+      refs: []
+    },
+    {
+      kind: "ai",
+      section: "CLASSROOM EXAMPLE B — P",
+      title: "P — Feedback that requests thinking",
+      seconds: 65,
+      message:
+        "The response combines direct conceptual guidance with a focused request for student revision.",
+      points: [
+        "The response identifies an inconsistent gravity sign.",
+        "It explains the upward-positive convention and asks for one revised equation.",
+        "It does not supply the final numerical answer and should not be called purely Socratic."
+      ],
+      cue:
+        "Show the authentic AI response and read the editable question outside the image.",
+      script:
+        "In this separate AI exchange, the response identifies an inconsistent " +
+        "gravity sign and explains that acceleration is negative when upward " +
+        "is positive. It then asks: Can you rewrite just the vertical equation " +
+        "with the correct sign? Notice what the response does and does not do. " +
+        "It provides direct explanatory guidance, so I would not describe it " +
+        "as purely Socratic. But it asks the student to perform the revision " +
+        "and does not give the final numerical answer. The important teaching " +
+        "boundary is that the student must evaluate the hint and rewrite the " +
+        "model. The teacher still has to check that the feedback itself is " +
+        "scientifically appropriate.",
+      transition: "The next example makes an error category visible to the student and teacher.",
+      boundary:
+        "This AI exchange is not the same student’s continuous record as the worksheet or paired revision.",
+      refs: []
+    },
+    {
+      kind: "error",
+      section: "CLASSROOM EXAMPLE C — O",
+      title: "O — Name the error",
+      seconds: 45,
+      message:
+        "A structured diagnosis makes a specific difficulty visible without inventing a frequency distribution.",
+      points: [
+        "The authentic worksheet shows the circled Direction Check selection.",
+        "Five diagnostic labels support a shared language for discussing errors.",
+        "Teacher analysis of chat records also informs recurring-error identification."
+      ],
+      cue:
+        "Point to the original circled selection; use the native category labels for readability.",
+      script:
+        "This is a different classroom example. The worksheet records the " +
+        "student selecting a direction or sign error. The diagnostic categories " +
+        "give the class a shared language for discussing what needs attention. " +
+        "Teacher analysis of actual chat records also helps identify recurring " +
+        "errors. However, the coding denominator and counting method have not " +
+        "been supplied, so there is no percentage chart here. Thirty is the " +
+        "class size, not a justified count of coded errors. The selected " +
+        "category is visible; the depth of the student’s explanation needs " +
+        "separate evidence.",
+      transition: "Now consider a matched before-and-after pair that documents one specific correction.",
+      boundary:
+        "No numerical error frequencies or proportions are supported by the supplied information.",
+      refs: []
+    },
+    {
+      kind: "revision",
+      section: "CLASSROOM EXAMPLE D — T",
+      title: "T — Track a specific revision",
+      seconds: 55,
+      message:
+        "The matched pair documents a change in the gravitational term, not complete mastery.",
+      points: [
+        "Use only the authentic initial and revised photographs from the same documented pair.",
+        "The gravitational term changes from positive to negative.",
+        "The correction is consistent with upward positive; other aspects may still contain errors."
+      ],
+      cue:
+        "Compare the matched pair side by side. Do not substitute the unrelated chatbot first-attempt photograph.",
+      script:
+        "These two photographs form the documented initial and revised pair. " +
+        "The targeted change is from a positive gravitational term to a " +
+        "negative one, consistent with taking upward as positive. The editable " +
+        "equation below explains that convention without reconstructing or " +
+        "correcting the handwriting. This is valuable process evidence: we " +
+        "can see what changed. But it is not an entirely error-free solution, " +
+        "and it is not proof of long-term mastery. We also cannot attribute " +
+        "this correction solely to AI from the available artefacts. A further " +
+        "student explanation or independent transfer task would strengthen " +
+        "the learning claim.",
+      transition: "How should we describe the learning experience without over-reading these artefacts?",
+      boundary:
+        "This matched pair is separate from the preceding AI and worksheet examples. No causal AI effect is established.",
+      refs: []
+    },
+    {
+      kind: "learning",
+      section: "STUDENT EXPERIENCES — SCIENTIFIC PRACTICES",
+      title: "Learning experiences: what is visible?",
+      seconds: 60,
+      message:
+        "Classify overt student behaviour cautiously; interacting with a chatbot does not establish interactive group learning.",
+      points: [
+        "Relevant practices include model building, computational thinking and scientific explanation.",
+        "Selecting a category is visible action; a reasoned new explanation needs additional evidence.",
+        "Group co-construction is not established by the supplied chatbot exchange."
+      ],
+      cue:
+        "Use the four learning-mode cards as a cautious interpretation, not a scored coding result.",
+      script:
+        "The EDB Scientific Practices learning modes help us describe overt " +
+        "behaviour. Reading a hint may remain passive. Selecting an error " +
+        "category is an active action that the worksheet makes visible. " +
+        "A constructive interpretation needs the student to generate a " +
+        "reasoned explanation or model, not just change a sign following a " +
+        "hint. Interactive group learning requires peers to co-construct " +
+        "or challenge explanations; a chatbot exchange alone does not show " +
+        "that. These examples foreground model building, computational " +
+        "thinking and scientific explanation. No questionnaire or verified " +
+        "student attitude data were supplied, so the default sharing reports " +
+        "actions rather than assuming enjoyment or confidence.",
+      transition: "The final question is what to retain, what to monitor and what to improve next.",
+      boundary:
+        "This is an evidence-informed interpretation, not formal learning-mode coding or a measurement of student satisfaction.",
+      refs: ["R2"]
+    },
+    {
+      kind: "reflection",
+      section: "REFLECTIONS, CHALLENGES AND SUGGESTIONS",
+      title: "Retain thinking; strengthen the evidence",
+      seconds: 70,
+      message:
+        "Keep the attempt-first boundary and teacher follow-up; improve feedback checks, access and evaluation.",
+      points: [
+        "Retain initial student work, focused checking and teacher judgement.",
+        "Monitor accuracy, over-helping, preparation workload, access and privacy.",
+        "Collect explanations, independent transfer evidence and student feedback in the next cycle."
+      ],
+      cue:
+        "Treat the table as implementation risks and practical responses, then close with the teacher feedback loop.",
+      script:
+        "My design reflection is that attempt-first work makes feedback more " +
+        "inspectable, but the teacher’s role does not become smaller. The " +
+        "following are risks to monitor, not measured incidents: AI may " +
+        "misread signs or give too much help; preparing and checking resources " +
+        "takes time; and access and privacy need school-approved arrangements. " +
+        "Start with one task, audit the feedback and retain a paper fallback. " +
+        "Around ten minutes before the lesson ends, students use simulation " +
+        "to verify their models, and the teacher discusses one of the most " +
+        "common errors. In the next cycle, collect a reasoned explanation, " +
+        "a no-AI transfer task and student feedback. Define the coding method " +
+        "before reporting any error frequencies. The takeaway is simple: " +
+        "AI supports checking, students retain responsibility for thinking, " +
+        "and teachers retain responsibility for judgement.",
+      transition: "End at 10:00. Invite questions only if additional time is available.",
+      boundary:
+        "Risks and proposed improvements are not reported classroom outcomes. No causal or long-term gain is claimed.",
+      refs: []
+    }
+  ]
+};
+
+/* ============================================================
+   3. ASSET DEFINITIONS AND STATE
+   ============================================================ */
+
+const ASSET_SPECS = [
+  {
+    id: "simulationImage",
+    title: "Simulation screenshot",
+    letter: "S",
+    pair: false,
+    note: "Retain trajectory, target and relevant attempt feedback.",
+    box: { w: 7.65, h: 4.95 }
+  },
+  {
+    id: "aiFeedbackImage",
+    title: "AI conversation crop",
+    letter: "P",
+    pair: false,
+    note:
+      "Retain the AI explanation and checking question. A crop of the response " +
+      "is preferable to the whole tall composite.",
+    box: { w: 6.10, h: 4.95 }
+  },
+  {
+    id: "errorDetectiveImage",
+    title: "Error Detective worksheet",
+    letter: "O",
+    pair: false,
+    note:
+      "Keep the circled Direction Check. Exclude the percentage infographic " +
+      "and unrelated surrounding document text.",
+    box: { w: 7.20, h: 4.65 }
+  },
+  {
+    id: "initialModelImage",
+    title: "Initial model — matched pair",
+    letter: "T",
+    pair: true,
+    note:
+      "Use the upper student-work photograph in the before/after document, " +
+      "not the separate chatbot first-attempt photograph.",
+    box: { w: (CONFIG.innerWidth - 0.42) / 2, h: 3.05 }
+  },
+  {
+    id: "revisedModelImage",
+    title: "Revised model — matched pair",
+    letter: "T",
+    pair: true,
+    note:
+      "Use the lower MY IMPROVED MODEL photograph from the same before/after document.",
+    box: { w: (CONFIG.innerWidth - 0.42) / 2, h: 3.05 }
+  }
+];
+
+const $ = id => document.getElementById(id);
+
+function emptyAsset(version = 0) {
+  return {
+    original: null,
+    processed: null,
+    name: "",
+    approved: false,
+    dirty: false,
+    loading: false,
+    error: "",
+    version
+  };
+}
+
+const STATE = {
+  busy: false,
+  assets: Object.fromEntries(ASSET_SPECS.map(s => [s.id, emptyAsset()])),
+  downloads: new Map()
+};
+
+const DEPENDENCIES = {
+  pptx: {
+    label: "PptxGenJS 4.0.1",
+    url: "https://cdn.jsdelivr.net/npm/pptxgenjs@4.0.1/dist/pptxgen.bundle.js",
+    ready: () => typeof window.PptxGenJS === "function",
+    promise: null,
+    message: "Not loaded"
+  },
+  docx: {
+    label: "docx 9.5.1",
+    url: "https://cdn.jsdelivr.net/npm/docx@9.5.1/dist/index.iife.js",
+    ready: () => Boolean(window.docx && window.docx.Packer && window.docx.Document),
+    promise: null,
+    message: "Not loaded"
+  }
+};
+
+function node(tag, text, className) {
+  const result = document.createElement(tag);
+  if (text !== undefined) result.textContent = text;
+  if (className) result.className = className;
+  return result;
+}
+
+function setStatus(message, type = "") {
+  $("status").textContent = message;
+  $("status").className = type;
+}
+
+function formatTime(seconds) {
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+}
+
+function schedule() {
+  let start = 0;
+  return CONTENT.slides.map((s, index) => {
+    const result = {
+      index,
+      start,
+      end: start + s.seconds,
+      label: `${formatTime(start)}–${formatTime(start + s.seconds)}`
+    };
+    start += s.seconds;
+    return result;
+  });
+}
+
+function getSnapshot() {
+  const confirmedFeedback =
+    $("feedback").value.trim() &&
+    $("feedbackSource").value.trim() &&
+    $("feedbackConfirmed").checked;
+
+  return {
+    meta: {
+      title: $("presentationTitle").value.trim() || CONTENT.title,
+      author: $("author").value.trim() || "[Presenter — enter confirmed name]",
+      affiliation:
+        $("affiliation").value.trim() || "[School / affiliation — enter confirmed information]",
+      authorReal: $("author").value.trim(),
+      affiliationReal: $("affiliation").value.trim(),
+      scheme: $("scheme").value.trim() || CONTENT.defaultScheme
+    },
+    captions: {
+      simulation: $("captionSimulation").value.trim(),
+      ai: $("captionAI").value.trim(),
+      error: $("captionError").value.trim(),
+      revision: $("captionRevision").value.trim()
+    },
+    feedback: confirmedFeedback ? {
+      text: $("feedback").value.trim(),
+      source: $("feedbackSource").value.trim()
+    } : null,
+    assets: Object.fromEntries(ASSET_SPECS.map(s => {
+      const a = STATE.assets[s.id];
+      return [s.id, {
+        processed: a.processed,
+        name: a.name,
+        approved: a.approved
+      }];
+    }))
+  };
+}
+
+/* ============================================================
+   4. INTERFACE AND TIMED OUTLINE
+   ============================================================ */
+
+function initialiseInterface() {
+  $("presentationTitle").value = CONTENT.title;
+  $("captionSimulation").value = CONTENT.captions.simulation;
+  $("captionAI").value = CONTENT.captions.ai;
+  $("captionError").value = CONTENT.captions.error;
+  $("captionRevision").value = CONTENT.captions.revision;
+
+  for (const spec of ASSET_SPECS) {
+    const card = node("article", undefined, "asset-card" + (spec.pair ? " pair" : ""));
+    card.innerHTML = `
+      <h3>${spec.letter} — ${spec.title}</h3>
+      <p class="small">${spec.note}</p>
+      <label for="${spec.id}">Select local PNG or JPEG</label>
+      <input id="${spec.id}" type="file" accept="image/png,image/jpeg">
+      <div class="empty" id="${spec.id}-empty">
+        Missing image — an editable evidence placeholder will be exported.
+      </div>
+      <img id="${spec.id}-preview" alt="${spec.title}: inspected crop" hidden>
+      <div class="small" id="${spec.id}-message"></div>
+      <details>
+        <summary>Optional manual crop</summary>
+        <p class="small">
+          Percentages of the original image. Left + width and top + height
+          must not exceed 100. Press Apply crop and inspect the result.
+        </p>
+        <div class="crop-grid">
+          <div>
+            <label for="${spec.id}-left">Left %</label>
+            <input id="${spec.id}-left" type="number" min="0" max="100" step="0.1" value="0">
+          </div>
+          <div>
+            <label for="${spec.id}-top">Top %</label>
+            <input id="${spec.id}-top" type="number" min="0" max="100" step="0.1" value="0">
+          </div>
+          <div>
+            <label for="${spec.id}-width">Width %</label>
+            <input id="${spec.id}-width" type="number" min="0.1" max="100" step="0.1" value="100">
+          </div>
+          <div>
+            <label for="${spec.id}-height">Height %</label>
+            <input id="${spec.id}-height" type="number" min="0.1" max="100" step="0.1" value="100">
+          </div>
+        </div>
+        <div class="row">
+          <button id="${spec.id}-apply" type="button" class="secondary">Apply crop</button>
+          <button id="${spec.id}-reset" type="button" class="secondary">Reset crop</button>
+        </div>
+      </details>
+      <label class="check-label">
+        <input id="${spec.id}-approved" type="checkbox">
+        I inspected this image/crop for relevance, anonymity and legibility.
+      </label>
+      <button id="${spec.id}-remove" type="button" class="secondary">Remove image</button>
+    `;
+    $("assetGrid").appendChild(card);
+
+    $(spec.id).addEventListener("change", event =>
+      loadAsset(spec.id, event.target.files[0])
+    );
+    $(spec.id + "-apply").addEventListener("click", () => applyCrop(spec.id));
+    $(spec.id + "-reset").addEventListener("click", () => {
+      resetCropControls(spec.id);
+      applyCrop(spec.id);
+    });
+    $(spec.id + "-remove").addEventListener("click", () => removeAsset(spec.id));
+    $(spec.id + "-approved").addEventListener("change", event => {
+      STATE.assets[spec.id].approved = event.target.checked;
+      refreshChecks();
+    });
+
+    ["left", "top", "width", "height"].forEach(key => {
+      $(spec.id + "-" + key).addEventListener("input", () => {
+        const asset = STATE.assets[spec.id];
+        if (!asset.original) return;
+        asset.dirty = true;
+        asset.approved = false;
+        $(spec.id + "-approved").checked = false;
+        $(spec.id + "-message").textContent =
+          "Crop values changed. Press Apply crop before exporting the PowerPoint.";
+        refreshChecks();
+      });
+    });
+  }
+
+  for (const text of CONTENT.review) {
+    const label = node("label");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    label.append(checkbox, document.createTextNode(text));
+    $("manualReview").appendChild(label);
+  }
+
+  for (const ref of CONTENT.references) {
+    const li = node("li");
+    const link = node("a", `[${ref.id}] ${ref.title}`);
+    link.href = ref.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    li.appendChild(link);
+    $("referenceList").appendChild(li);
+  }
+
+  [
+    "presentationTitle", "author", "affiliation", "scheme",
+    "feedback", "feedbackSource", "feedbackConfirmed"
+  ].forEach(id => {
+    $(id).addEventListener("input", refreshChecks);
+    $(id).addEventListener("change", refreshChecks);
+  });
+
+  $("presentationTitle").addEventListener("change", renderOutline);
+  $("downloadPptx").addEventListener("click", () => exportFile("pptx"));
+  $("downloadDocx").addEventListener("click", () => exportFile("docx"));
+  $("retryLibraries").addEventListener("click", loadLibraries);
+
+  renderOutline();
+  refreshChecks();
+}
+
+function renderOutline() {
+  const times = schedule();
+  const total = times.length ? times[times.length - 1].end : 0;
+  const words = CONTENT.slides.reduce((sum, s) =>
+    sum + s.script.trim().split(/\s+/).length, 0
+  );
+
+  $("deckBadge").textContent =
+    `${CONTENT.slides.length} main slides · ${formatTime(total)} target`;
+
+  $("timingSummary").textContent =
+    `${formatTime(total)} of suggested pacing, excluding Q&A. ` +
+    `Approximately ${words} words of draft narration, leaving time for pointing ` +
+    `to evidence and short pauses. Rehearse and adapt to your speaking pace.`;
+
+  $("plan").replaceChildren();
+
+  CONTENT.slides.forEach((s, i) => {
+    const details = node("details", undefined, "plan-item");
+    const summary = node("summary");
+    summary.append(
+      node("span", `${times[i].label} · ${s.seconds}s`, "plan-time"),
+      document.createTextNode(
+        `${i + 1}. ${i === 0 ? ($("presentationTitle").value.trim() || s.title) : s.title}`
+      )
+    );
+    details.appendChild(summary);
+    details.appendChild(node("p", s.message));
+
+    const ul = document.createElement("ul");
+    s.points.forEach(point => ul.appendChild(node("li", point)));
+    details.appendChild(ul);
+    details.appendChild(node("p", "Show: " + s.cue, "small"));
+    details.appendChild(node("p", s.script, "script"));
+    details.appendChild(node("p", "Transition: " + s.transition, "small"));
+    details.appendChild(node("p", "Evidence boundary: " + s.boundary, "small"));
+    $("plan").appendChild(details);
+  });
+}
+
+function refreshChecks() {
+  $("libraryStates").replaceChildren();
+  for (const dep of Object.values(DEPENDENCIES)) {
+    $("libraryStates").appendChild(
+      node("div", `${dep.ready() ? "✓" : "○"} ${dep.label}: ${dep.ready() ? "ready" : dep.message}`)
+    );
+  }
+
+  const list = $("checklist");
+  list.replaceChildren();
+  const add = text => list.appendChild(node("li", text));
+
+  add($("author").value.trim()
+    ? "✓ Presenter entered."
+    : "○ Presenter placeholder will be used.");
+
+  add($("affiliation").value.trim()
+    ? "✓ School / affiliation entered."
+    : "○ School / affiliation placeholder will be used.");
+
+  add($("scheme").value.trim()
+    ? "✓ Event / scheme name entered; eligibility still requires manual confirmation."
+    : "○ Generic 2026 sharing label will be used.");
+
+  for (const spec of ASSET_SPECS) {
+    const a = STATE.assets[spec.id];
+    if (a.loading) add(`… ${spec.title}: processing.`);
+    else if (a.error) add(`⚠ ${spec.title}: ${a.error}`);
+    else if (a.dirty) add(`⚠ ${spec.title}: crop changes not applied.`);
+    else if (!a.processed) add(`○ ${spec.title}: missing; placeholder will be used.`);
+    else add(`${a.approved ? "✓" : "○"} ${spec.title}: ${a.approved ? "inspected" : "review image/crop"}.`);
+  }
+
+  const supplied = $("feedback").value.trim() || $("feedbackSource").value.trim();
+  const validFeedback =
+    $("feedback").value.trim() &&
+    $("feedbackSource").value.trim() &&
+    $("feedbackConfirmed").checked;
+
+  add(validFeedback
+    ? "✓ Presenter-supplied qualitative response will be included."
+    : supplied
+      ? "○ Optional response incomplete or unconfirmed; it will be omitted."
+      : "✓ Default student-experience statements report actions, not assumed attitudes.");
+
+  const processing = Object.values(STATE.assets).some(a => a.loading);
+  $("downloadPptx").disabled = STATE.busy || processing || !DEPENDENCIES.pptx.ready();
+  $("downloadDocx").disabled = STATE.busy || !DEPENDENCIES.docx.ready();
+}
+
+/* ============================================================
+   5. DEPENDENCY LOADING — PINNED VERSIONS
+   Each export remains available if its own library loads.
+   ============================================================ */
+
+function loadDependency(key) {
+  const dep = DEPENDENCIES[key];
+
+  if (dep.ready()) {
+    dep.message = "ready";
+    refreshChecks();
+    return Promise.resolve();
+  }
+  if (dep.promise) return dep.promise;
+
+  dep.message = "loading…";
+  refreshChecks();
+
+  dep.promise = new Promise((resolve, reject) => {
+    const old = document.getElementById("dependency-" + key);
+    if (old) old.remove();
+
+    const script = document.createElement("script");
+    script.id = "dependency-" + key;
+    script.src = dep.url;
+    script.async = true;
+    script.referrerPolicy = "no-referrer";
+
+    let settled = false;
+    const finish = error => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      script.onload = null;
+      script.onerror = null;
+      if (error) {
+        script.remove();
+        reject(error);
+      } else {
+        resolve();
+      }
+    };
+
+    const timer = setTimeout(() =>
+      finish(new Error(`${dep.label} timed out. Check internet or CDN access.`)),
+      30000
+    );
+
+    script.onload = () =>
+      finish(dep.ready() ? null : new Error(`${dep.label} loaded without the expected browser API.`));
+    script.onerror = () =>
+      finish(new Error(`Unable to load ${dep.label}. Check internet or CDN restrictions.`));
+
+    document.head.appendChild(script);
+  }).then(() => {
+    dep.message = "ready";
+  }).catch(error => {
+    dep.message = error.message;
+    setStatus(error.message + "\nUse Retry library loading when ready.", "error");
+  }).finally(() => {
+    dep.promise = null;
+    refreshChecks();
+  });
+
+  return dep.promise;
+}
+
+function loadLibraries() {
+  loadDependency("pptx");
+  loadDependency("docx");
+}
+
+/* ============================================================
+   6. LOCAL IMAGE HANDLING AND MANUAL CROPPING
+   Canvas is used only for authentic image crops and text
+   measurement, never to rasterise a slide or diagram.
+   ============================================================ */
+
+function readFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("The image file could not be read."));
+    reader.readAsDataURL(file);
+  });
+}
+
+function decodeImage(data) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error("The image could not be decoded."));
+    image.src = data;
+  });
+}
+
+function resetCropControls(id) {
+  ["left", "top", "width", "height"].forEach(key => {
+    $(id + "-" + key).value =
+      key === "width" || key === "height" ? 100 : 0;
+  });
+}
+
+async function loadAsset(id, file) {
+  if (!file) return;
+  const asset = STATE.assets[id];
+  const token = ++asset.version;
+
+  asset.original = null;
+  asset.processed = null;
+  asset.approved = false;
+  asset.dirty = false;
+  asset.loading = true;
+  asset.error = "";
+  asset.name = file.name;
+
+  $(id + "-approved").checked = false;
+  $(id + "-preview").hidden = true;
+  $(id + "-empty").hidden = false;
+  $(id + "-message").textContent = "Reading local image…";
+  refreshChecks();
+
+  try {
+    if (!/\.(png|jpe?g)$/i.test(file.name)) {
+      throw new Error("Choose a PNG or JPEG image.");
+    }
+    const data = await readFile(file);
+    const image = await decodeImage(data);
+
+    if (token !== asset.version) return;
+
+    asset.original = {
+      data,
+      image,
+      width: image.naturalWidth,
+      height: image.naturalHeight
+    };
+    asset.loading = false;
+    resetCropControls(id);
+    await applyCrop(id);
+  } catch (error) {
+    if (token !== asset.version) return;
+    asset.loading = false;
+    asset.error = error.message;
+    $(id + "-message").textContent = error.message;
+    refreshChecks();
+  }
+}
+
+function readCrop(id) {
+  const crop = {};
+  for (const key of ["left", "top", "width", "height"]) {
+    const raw = $(id + "-" + key).value;
+    if (raw === "") throw new Error("Complete all four crop values.");
+    crop[key] = Number(raw);
+    if (!Number.isFinite(crop[key])) {
+      throw new Error("Crop values must be valid numbers.");
+    }
+  }
+
+  if (
+    crop.left < 0 || crop.top < 0 ||
+    crop.width <= 0 || crop.height <= 0 ||
+    crop.left + crop.width > 100.001 ||
+    crop.top + crop.height > 100.001
+  ) {
+    throw new Error("Keep the crop rectangle within 0–100% of the original.");
+  }
+  return crop;
+}
+
+async function applyCrop(id) {
+  const asset = STATE.assets[id];
+  if (!asset.original) {
+    $(id + "-message").textContent = "Select an image before applying a crop.";
+    return;
+  }
+
+  const token = ++asset.version;
+  asset.loading = true;
+  asset.error = "";
+  asset.approved = false;
+  $(id + "-approved").checked = false;
+  refreshChecks();
+
+  try {
+    const crop = readCrop(id);
+    const original = asset.original;
+
+    const sx = Math.floor(original.width * crop.left / 100);
+    const sy = Math.floor(original.height * crop.top / 100);
+    const sw = Math.min(
+      original.width - sx,
+      Math.max(1, Math.round(original.width * crop.width / 100))
+    );
+    const sh = Math.min(
+      original.height - sy,
+      Math.max(1, Math.round(original.height * crop.height / 100))
+    );
+
+    if (sw < 1 || sh < 1) throw new Error("The selected crop has no usable pixels.");
+
+    const full =
+      crop.left === 0 && crop.top === 0 &&
+      crop.width === 100 && crop.height === 100;
+
+    let data = original.data;
+    if (!full) {
+      if (sw * sh > 30000000) {
+        throw new Error(
+          "This crop exceeds the browser safety limit. Use a smaller original crop or a pre-cropped file."
+        );
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = sw;
+      canvas.height = sh;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("Image cropping is unavailable in this browser.");
+
+      // Preserve selected source pixels at 1:1 dimensions.
+      ctx.drawImage(original.image, sx, sy, sw, sh, 0, 0, sw, sh);
+      data = canvas.toDataURL("image/png");
+      if (!data || data === "data:,") {
+        throw new Error("The browser could not produce this crop.");
+      }
+      canvas.width = 1;
+      canvas.height = 1;
+    }
+
+    if (token !== asset.version) return;
+
+    asset.processed = { data, width: sw, height: sh };
+    asset.loading = false;
+    asset.dirty = false;
+    asset.error = "";
+
+    $(id + "-preview").src = data;
+    $(id + "-preview").hidden = false;
+    $(id + "-empty").hidden = true;
+
+    const ppi = effectivePixelsPerInch(id, asset.processed);
+    $(id + "-message").textContent =
+      `${asset.name}: selected pixels ${sw} × ${sh}; approximately ` +
+      `${Math.round(ppi)} source pixels per slide inch. ` +
+      (ppi < CONFIG.recommendedPixelsPerInch
+        ? "Low-resolution warning: inspect essential details carefully."
+        : "Inspect handwriting and small interface text at the intended display size.");
+
+    refreshChecks();
+  } catch (error) {
+    if (token !== asset.version) return;
+    asset.loading = false;
+    asset.dirty = true;
+    asset.error = error.message;
+    $(id + "-message").textContent = error.message;
+    refreshChecks();
+  }
+}
+
+function removeAsset(id) {
+  const nextVersion = STATE.assets[id].version + 1;
+  STATE.assets[id] = emptyAsset(nextVersion);
+  $(id).value = "";
+  $(id + "-approved").checked = false;
+  $(id + "-preview").hidden = true;
+  $(id + "-preview").removeAttribute("src");
+  $(id + "-empty").hidden = false;
+  $(id + "-message").textContent = "";
+  resetCropControls(id);
+  refreshChecks();
+}
+
+function contain(pixelW, pixelH, boxW, boxH) {
+  const scale = Math.min(boxW / pixelW, boxH / pixelH);
+  return { w: pixelW * scale, h: pixelH * scale };
+}
+
+function effectivePixelsPerInch(id, image) {
+  const spec = ASSET_SPECS.find(s => s.id === id);
+  const fitted = contain(image.width, image.height, spec.box.w, spec.box.h);
+  return Math.min(image.width / fitted.w, image.height / fitted.h);
+}
+
+/* ============================================================
+   7. REUSABLE NATIVE POWERPOINT LAYOUT HELPERS
+   ============================================================ */
+
+function createDrawing(pptx, slide, slideNumber) {
+  const C = CONFIG.colors;
+  const objects = [];
+  const textWarnings = [];
+  let serial = 0;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Text measurement is unavailable.");
+
+  function objectName(label) {
+    serial++;
+    return `S${slideNumber}-${String(serial).padStart(3, "0")} ${label}`;
+  }
+
+  function record(label, x, y, w, h, role) {
+    objects.push({ label, x, y, w, h, role });
+  }
+
+  function rectangle(label, x, y, w, h, fill, border = C.line, role = "background") {
+    record(label, x, y, w, h, role);
+    slide.addShape(pptx.ShapeType.rect, {
+      x, y, w, h,
+      fill: { color: fill },
+      line: { color: border, width: 0.7 },
+      objectName: objectName(label)
+    });
+  }
+
+  function line(label, x1, y1, x2, y2, color = C.line, arrow = false) {
+    const x = Math.min(x1, x2);
+    const y = Math.min(y1, y2);
+    const w = Math.abs(x2 - x1);
+    const h = Math.abs(y2 - y1);
+    const reversed = x2 < x1 || y2 < y1;
+    const lineOptions = { color, width: arrow ? 1.6 : 0.8 };
+
+    if (arrow) {
+      lineOptions[reversed ? "beginArrowType" : "endArrowType"] = "triangle";
+    }
+
+    record(label, x, y, w, h, "connector");
+    slide.addShape(pptx.ShapeType.line, {
+      x, y, w, h,
+      line: lineOptions,
+      objectName: objectName(label)
+    });
+  }
+
+  function wrap(value, width, size, bold = false) {
+    ctx.font = `${bold ? "bold " : ""}${size}px ${CONFIG.font}`;
+    const maximum = Math.max(1, width * 72 * 0.955);
+    const result = [];
+
+    String(value).split("\n").forEach(paragraph => {
+      if (!paragraph.trim()) {
+        result.push("");
+        return;
+      }
+      let current = "";
+      paragraph.trim().split(/\s+/).forEach(word => {
+        if (ctx.measureText(word).width > maximum) {
+          textWarnings.push(`Long unbroken text in "${word}".`);
+        }
+        const test = current ? current + " " + word : word;
+        if (current && ctx.measureText(test).width > maximum) {
+          result.push(current);
+          current = word;
+        } else {
+          current = test;
+        }
+      });
+      if (current) result.push(current);
+    });
+
+    return result.length ? result : [""];
+  }
+
+  function text(label, value, x, y, w, h, options = {}) {
+    const size = options.size || 24;
+    const bold = Boolean(options.bold);
+    const lines = wrap(value, w, size, bold);
+    const needed = lines.length * size * 1.18 / 72 + 0.025;
+
+    if (needed > h + 0.035 && String(value).trim()) {
+      textWarnings.push(
+        `${label}: estimated ${needed.toFixed(2)}″ needed; ` +
+        `${h.toFixed(2)}″ available. Shorten the text or review the layout.`
+      );
+    }
+
+    record(label, x, y, w, h, "content");
+    slide.addText(lines.join("\n"), {
+      x, y, w, h,
+      fontFace: CONFIG.font,
+      fontSize: size,
+      bold,
+      color: options.color || C.body,
+      align: options.align || "left",
+      valign: "top",
+      margin: 0,
+      lineSpacingMultiple: 1.05,
+      paraSpaceAfter: 0,
+      paraSpaceBefore: 0,
+      lang: "en-GB",
+      objectName: objectName(label)
+    });
+  }
+
+  function equation(label, x, y, w, h, size = 28, includePrefix = false) {
+    // Use true editable subscript/superscript runs for Latin y and exponent −2.
+    const runs = [];
+    if (includePrefix) runs.push({ text: CONTENT.equationLabel + " " });
+    runs.push(
+      { text: "a" },
+      { text: "y", options: { subscript: true } },
+      { text: " = −9.81 m s" },
+      { text: "−2", options: { superscript: true } }
+    );
+
+    record(label, x, y, w, h, "content");
+    slide.addText(runs, {
+      x, y, w, h,
+      fontFace: CONFIG.font,
+      fontSize: size,
+      bold: true,
+      color: C.T,
+      margin: 0,
+      valign: "top",
+      paraSpaceAfter: 0,
+      lineSpacingMultiple: 1.05,
+      objectName: objectName(label)
+    });
+  }
+
+  function image(label, id, x, y, w, h, snapshot) {
+    rectangle(label + " container", x, y, w, h, C.pale, C.line);
+
+    const asset = snapshot.assets[id].processed;
+    if (!asset) {
+      const spec = ASSET_SPECS.find(s => s.id === id);
+      text(label + " placeholder",
+        "EVIDENCE IMAGE PLACEHOLDER\n" + spec.title,
+        x + 0.20, y + h / 2 - 0.63, w - 0.40, 1.26,
+        { size: 22, color: C.muted, align: "center" }
+      );
+      return;
+    }
+
+    const fitted = contain(asset.width, asset.height, w - 0.10, h - 0.10);
+    const bx = x + (w - fitted.w) / 2;
+    const by = y + (h - fitted.h) / 2;
+    record(label, bx, by, fitted.w, fitted.h, "image");
+
+    slide.addImage({
+      data: asset.data,
+      x: bx, y: by, w: fitted.w, h: fitted.h,
+      altText: label,
+      objectName: objectName(label)
+    });
+  }
+
+  function smallLabel(label, value, x, y, w, h, key = "S", size = 22) {
+    rectangle(label + " background", x, y, w, h, C["light" + key], C["light" + key]);
+    text(label, value, x + 0.12, y + 0.08, w - 0.24, h - 0.12, {
+      size, bold: true, color: C[key]
+    });
+  }
+
+  function flow(label, values, x, y, w, h, size = 20) {
+    const gap = 0.30;
+    const nodeWidth = (w - gap * (values.length - 1)) / values.length;
+
+    values.forEach((value, i) => {
+      const bx = x + i * (nodeWidth + gap);
+      rectangle(label + " node " + i, bx, y, nodeWidth, h, C.pale, C.line);
+      text(label + " text " + i, value,
+        bx + 0.10, y + 0.08, nodeWidth - 0.20, h - 0.12,
+        { size, align: "center" });
+      if (i < values.length - 1) {
+        line(label + " arrow " + i,
+          bx + nodeWidth + 0.04, y + h / 2,
+          bx + nodeWidth + gap - 0.04, y + h / 2,
+          C.P, true);
+      }
+    });
+  }
+
+  function audit() {
+    const errors = [];
+    const warnings = [...textWarnings];
+
+    // Intentional panel/background containment is excluded from overlap checks.
+    // Backgrounds are still independently checked for slide bounds.
+    for (const item of objects) {
+      if (
+        ![item.x, item.y, item.w, item.h].every(Number.isFinite) ||
+        item.w < 0 || item.h < 0 ||
+        item.x < -0.01 || item.y < -0.01 ||
+        item.x + item.w > CONFIG.width + 0.01 ||
+        item.y + item.h > CONFIG.height + 0.01
+      ) {
+        errors.push(`Slide ${slideNumber}: out-of-bounds object: ${item.label}`);
+      }
+    }
+
+    const foreground = objects.filter(o =>
+      o.role === "content" || o.role === "image"
+    );
+
+    for (let i = 0; i < foreground.length; i++) {
+      for (let j = i + 1; j < foreground.length; j++) {
+        const a = foreground[i];
+        const b = foreground[j];
+        const overlapW = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
+        const overlapH = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+        if (overlapW > 0.04 && overlapH > 0.04) {
+          warnings.push(`Possible overlap: ${a.label} / ${b.label}`);
+        }
+      }
+    }
+
+    return {
+      errors,
+      warnings: warnings.map(w => `Slide ${slideNumber}: ${w}`),
+      count: objects.length
+    };
+  }
+
+  return { rectangle, line, text, equation, image, smallLabel, flow, audit };
+}
+
+/* ============================================================
+   8. SLIDE DESIGN — ALL NON-EVIDENCE CONTENT IS NATIVE
+   ============================================================ */
+
+function drawFrame(B, slide, s, i, timing) {
+  const C = CONFIG.colors;
+  slide.background = { color: C.white };
+
+  ["S", "P", "O", "T"].forEach((key, k) => {
+    B.rectangle("SPOT top rule " + key,
+      k * CONFIG.width / 4, 0, CONFIG.width / 4, 0.07, C[key], C[key]);
+  });
+
+  if (s.kind !== "cover") {
+    B.text("Section label", s.section,
+      0.55, 0.28, CONFIG.innerWidth, 0.31,
+      { size: 13, bold: true, color: C.P });
+
+    B.text("Slide title", s.title,
+      0.55, 0.70, CONFIG.innerWidth, 0.72,
+      { size: 34, bold: true, color: C.navy });
+  }
+
+  B.line("Footer rule", 0.55, 7.08, CONFIG.width - 0.55, 7.08, C.line);
+
+  const source = s.refs.length
+    ? "Framework reference: " + s.refs.map(r => "[" + r + "]").join(" ")
+    : "Teacher-developed classroom practice • SPOT";
+
+  B.text("Footer source", source,
+    0.55, 7.20, 8.35, 0.24, { size: 11.5, color: C.muted });
+
+  B.text("Slide pacing",
+    `${String(i + 1).padStart(2, "0")}/${CONTENT.slides.length} · ${timing.label} · ${s.seconds}s`,
+    9.05, 7.20, CONFIG.width - 9.60, 0.24,
+    { size: 11.5, color: C.muted, align: "right" });
+}
+
+function drawSlide(pptx, slide, s, i, timing, snapshot) {
+  const B = createDrawing(pptx, slide, i + 1);
+  const C = CONFIG.colors;
+  const iw = CONFIG.innerWidth;
+  const twoGap = 0.35;
+  const twoW = (iw - twoGap) / 2;
+  const rightX = 0.55 + twoW + twoGap;
+
+  drawFrame(B, slide, s, i, timing);
+
+  switch (s.kind) {
+    case "cover": {
+      B.text("Event / award context", snapshot.meta.scheme,
+        0.55, 0.34, iw, 0.65,
+        { size: 16, bold: true, color: C.P });
+
+      B.text("Presentation title", snapshot.meta.title,
+        0.55, 1.18, iw, 1.65,
+        { size: 46, bold: true, color: C.navy });
+
+      B.text("Presentation subtitle", CONTENT.subtitle,
+        0.55, 3.00, iw, 1.00,
+        { size: 26, color: C.navy });
+
+      B.text("Presenter", snapshot.meta.author,
+        0.55, 4.32, 6.25, 0.73,
+        { size: 22, bold: true });
+
+      B.text("Affiliation", snapshot.meta.affiliation,
+        0.55, 5.14, 6.25, 0.78,
+        { size: 20, color: C.muted });
+
+      B.text("Core strapline", CONTENT.strapline,
+        7.25, 4.28, CONFIG.width - 7.80, 1.66,
+        { size: 24, bold: true, color: C.P });
+
+      B.text("Cohort", CONTENT.context,
+        0.55, 6.12, iw, 0.43,
+        { size: 24, bold: true });
+
+      B.text("Implemented topic scope", CONTENT.topics,
+        0.55, 6.67, iw, 0.32,
+        { size: 16, color: C.muted });
+      break;
+    }
+
+    case "context": {
+      CONTENT.contextCards.forEach((card, k) => {
+        const x = k ? rightX : 0.55;
+        B.rectangle("Context panel " + k, x, 1.72, twoW, 3.70, C.pale, C.pale);
+        B.text("Context panel heading " + k, card.title,
+          x + 0.22, 1.95, twoW - 0.44, 0.53,
+          { size: 26, bold: true, color: C.navy });
+        B.text("Context panel text " + k, card.body,
+          x + 0.22, 2.72, twoW - 0.44, 2.45,
+          { size: 24 });
+      });
+
+      B.text("Preparation workflow label", CONTENT.preparationLabel,
+        0.55, 5.64, iw, 0.31, { size: 15, color: C.muted });
+
+      B.flow("Teacher preparation", CONTENT.preparation,
+        0.55, 6.03, iw, 0.80, 20);
+      break;
+    }
+
+    case "framework": {
+      const gap = 0.24;
+      const cardW = (iw - gap * 3) / 4;
+
+      CONTENT.stages.forEach((stage, k) => {
+        const x = 0.55 + k * (cardW + gap);
+        B.rectangle("Framework card " + stage.letter,
+          x, 1.67, cardW, 4.33,
+          C["light" + stage.letter], C["light" + stage.letter]);
+
+        B.text("SPOT letter " + stage.letter, stage.letter,
+          x + 0.20, 1.94, cardW - 0.40, 0.69,
+          { size: 36, bold: true, color: C[stage.letter] });
+
+        B.text("SPOT full stage " + stage.letter, stage.title,
+          x + 0.20, 2.85, cardW - 0.40, 1.34,
+          { size: 24, bold: true, color: C[stage.letter] });
+
+        B.text("SPOT explanation " + stage.letter, stage.body,
+          x + 0.20, 4.38, cardW - 0.40, 1.47,
+          { size: 22 });
+
+        if (k < 3) {
+          B.line("Framework forward arrow " + k,
+            x + cardW + 0.025, 3.88,
+            x + cardW + gap - 0.025, 3.88,
+            C.muted, true);
+        }
+      });
+
+      const firstCenter = 0.55 + cardW / 2;
+      const lastCenter = 0.55 + 3 * (cardW + gap) + cardW / 2;
+
+      B.line("Framework return down", lastCenter, 6.04, lastCenter, 6.28, C.muted);
+      B.line("Framework return across", lastCenter, 6.28, firstCenter, 6.28, C.muted);
+      B.line("Framework return up", firstCenter, 6.28, firstCenter, 6.04, C.muted, true);
+
+      B.text("Recurring-framework evidence boundary", CONTENT.recurring,
+        0.55, 6.53, iw, 0.41,
+        { size: 20, color: C.muted });
+      break;
+    }
+
+    case "modes": {
+      CONTENT.genaiModes.forEach((mode, k) => {
+        const x = k % 2 ? rightX : 0.55;
+        const y = k < 2 ? 1.67 : 3.97;
+
+        B.rectangle("GenAI mode panel " + k,
+          x, y, twoW, 2.08, C.pale, C.pale);
+
+        B.text("GenAI mode heading " + k, mode.title,
+          x + 0.21, y + 0.19, twoW - 0.42, 0.50,
+          { size: 22, bold: true, color: C.P });
+
+        B.text("GenAI mode explanation " + k, mode.body,
+          x + 0.21, y + 0.83, twoW - 0.42, 1.12,
+          { size: 24 });
+      });
+
+      B.text("GenAI mode interpretation boundary", CONTENT.modesBoundary,
+        0.55, 6.38, iw, 0.50,
+        { size: 20, color: C.muted });
+      break;
+    }
+
+    case "thinking": {
+      const gap = 0.25;
+      const cardW = (iw - 2 * gap) / 3;
+
+      CONTENT.thinking.forEach((item, k) => {
+        const x = 0.55 + k * (cardW + gap);
+        B.rectangle("Thinking goal panel " + k,
+          x, 1.77, cardW, 4.22, C["light" + item.color], C["light" + item.color]);
+
+        B.text("Thinking goal heading " + k, item.title,
+          x + 0.21, 2.02, cardW - 0.42, 1.01,
+          { size: 26, bold: true, color: C[item.color] });
+
+        B.text("Thinking opportunity " + k, item.body,
+          x + 0.21, 3.22, cardW - 0.42, 1.76,
+          { size: 24 });
+
+        B.text("Thinking evidence strength " + k, item.status,
+          x + 0.21, 5.22, cardW - 0.42, 0.65,
+          { size: 18, bold: true, color: C.muted });
+      });
+
+      B.text("Thinking evidence boundary", CONTENT.thinkingBoundary,
+        0.55, 6.27, iw, 0.66,
+        { size: 20, color: C.muted });
+      break;
+    }
+
+    case "simulation": {
+      B.image("Authentic simulation evidence", "simulationImage",
+        0.55, 1.67, 7.65, 4.95, snapshot);
+
+      B.text("Simulation visible-action label", "S — Simulation-based verification",
+        8.58, 1.72, CONFIG.width - 9.13, 0.72,
+        { size: 20, bold: true, color: C.S });
+
+      B.text("Simulation message", CONTENT.simulationHeading,
+        8.58, 2.65, CONFIG.width - 9.13, 1.04,
+        { size: 28, bold: true, color: C.S });
+
+      B.text("Simulation native caption", snapshot.captions.simulation,
+        8.58, 3.99, CONFIG.width - 9.13, 1.96,
+        { size: 24 });
+
+      B.text("Simulation limit", CONTENT.simulationLimit,
+        8.58, 6.14, CONFIG.width - 9.13, 0.70,
+        { size: 18, color: C.muted });
+
+      B.text("Simulation separate-example note",
+        "Separate classroom example A; no continuous-student progression is implied.",
+        0.55, 6.80, 7.65, 0.25,
+        { size: 12.5, color: C.muted });
+      break;
+    }
+
+    case "ai": {
+      B.image("Authentic AI conversation", "aiFeedbackImage",
+        0.55, 1.67, 6.10, 4.95, snapshot);
+
+      const x = 7.05;
+      const w = CONFIG.width - x - 0.55;
+
+      B.text("Editable authentic checking question", CONTENT.aiQuote,
+        x, 1.78, w, 1.45,
+        { size: 26, bold: true, color: C.P });
+
+      B.text("AI response interpretation", snapshot.captions.ai,
+        x, 3.50, w, 2.12,
+        { size: 24 });
+
+      B.text("Sign convention label", CONTENT.equationLabel,
+        x, 5.86, w, 0.41,
+        { size: 22, color: C.muted });
+
+      B.equation("Editable acceleration equation",
+        x, 6.29, w, 0.49, 26, false);
+
+      B.text("AI guidance boundary", CONTENT.aiLimit,
+        0.55, 6.82, 6.10, 0.24,
+        { size: 12.5, color: C.muted });
+      break;
+    }
+
+    case "error": {
+      B.image("Authentic circled Error Detective worksheet", "errorDetectiveImage",
+        0.55, 1.67, 7.20, 4.65, snapshot);
+
+      const x = 8.12;
+      const w = CONFIG.width - x - 0.55;
+
+      B.smallLabel("Selected diagnostic category", CONTENT.errorSelected,
+        x, 1.67, w, 0.63, "O", 22);
+
+      B.text("Error diagnosis caption", snapshot.captions.error,
+        x, 2.57, w, 1.01,
+        { size: 24 });
+
+      CONTENT.categories.forEach((category, k) => {
+        B.smallLabel("Equal diagnostic label " + k, category,
+          x, 3.79 + k * 0.56, w, 0.49, "O", 22);
+      });
+
+      B.text("Error evidence boundary", CONTENT.errorLimit,
+        0.55, 6.79, iw, 0.25,
+        { size: 12.5, color: C.muted });
+      break;
+    }
+
+    case "revision": {
+      const gap = 0.42;
+      const imageW = (iw - gap) / 2;
+      const revisedX = 0.55 + imageW + gap;
+
+      B.text("Initial model editable label", CONTENT.initialLabel,
+        0.55, 1.68, imageW, 0.41,
+        { size: 24, bold: true, color: C.T });
+
+      B.text("Revised model editable label", CONTENT.revisedLabel,
+        revisedX, 1.68, imageW, 0.41,
+        { size: 24, bold: true, color: C.T });
+
+      B.image("Authentic initial model from matched pair", "initialModelImage",
+        0.55, 2.20, imageW, 3.05, snapshot);
+
+      B.image("Authentic revised model from matched pair", "revisedModelImage",
+        revisedX, 2.20, imageW, 3.05, snapshot);
+
+      B.text("Matched revision native caption", snapshot.captions.revision,
+        0.55, 5.49, iw, 0.85,
+        { size: 24 });
+
+      B.equation("Editable sign convention and units",
+        0.55, 6.48, iw, 0.49, 28, true);
+
+      // The evidence limit is carried in the footer area as readable editable text.
+      // It does not overlap either evidence image.
+      break;
+    }
+
+    case "learning": {
+      CONTENT.learningModes.forEach((item, k) => {
+        const x = k % 2 ? rightX : 0.55;
+        const y = k < 2 ? 1.67 : 3.80;
+
+        B.rectangle("Learning-mode panel " + k,
+          x, y, twoW, 1.87, C.pale, C.pale);
+
+        B.text("Learning-mode title " + k, item.title,
+          x + 0.21, y + 0.17, twoW - 0.42, 0.47,
+          { size: 24, bold: true, color: C.navy });
+
+        B.text("Learning-mode interpretation " + k, item.body,
+          x + 0.21, y + 0.79, twoW - 0.42, 0.98,
+          { size: 22 });
+      });
+
+      const observation = snapshot.feedback
+        ? "Presenter-supplied: " + snapshot.feedback.text
+        : CONTENT.noStudentVoice;
+
+      B.text("Student response evidence", observation,
+        0.55, 5.98, iw, 0.82,
+        { size: 22, color: C.P });
+
+      B.text("Student response source",
+        snapshot.feedback
+          ? "Source / context: " + snapshot.feedback.source
+          : "No student questionnaire or verified quotation was supplied.",
+        0.55, 6.83, iw, 0.23,
+        { size: 12, color: C.muted });
+      break;
+    }
+
+    case "reflection": {
+      const leftW = 3.62;
+      const responseX = 4.60;
+      const responseW = CONFIG.width - responseX - 0.55;
+
+      B.text("Challenges column heading", CONTENT.reflectionHeaders[0],
+        0.55, 1.65, leftW, 0.43,
+        { size: 22, bold: true, color: C.T });
+
+      B.text("Responses column heading", CONTENT.reflectionHeaders[1],
+        responseX, 1.65, responseW, 0.43,
+        { size: 22, bold: true, color: C.P });
+
+      CONTENT.reflections.forEach((row, k) => {
+        const y = 2.22 + k * 1.16;
+        B.rectangle("Reflection table background " + k,
+          0.55, y, iw, 1.00, k % 2 ? C.white : C.pale, C.line);
+
+        B.text("Reflection challenge " + k, row[0],
+          0.72, y + 0.13, leftW - 0.21, 0.80,
+          { size: 22, bold: true });
+
+        B.text("Reflection practical response " + k, row[1],
+          responseX, y + 0.13, responseW - 0.18, 0.80,
+          { size: 22 });
+      });
+
+      B.flow("Teacher feedback loop", CONTENT.loopSteps,
+        0.55, 5.83, iw, 0.59, 20);
+
+      B.text("Final takeaway", CONTENT.closing,
+        0.55, 6.59, iw, 0.45,
+        { size: 26, bold: true, color: C.navy });
+      break;
+    }
+
+    default:
+      throw new Error("Unknown slide layout: " + s.kind);
+  }
+
+  // Add specific editable evidence limits in otherwise unused source footer space.
+  if (s.kind === "revision") {
+    B.text("Revision evidence limit", CONTENT.revisionLimit,
+      0.55, 7.20, 8.35, 0.24,
+      { size: 11.5, color: C.muted });
+    // The normal footer source is intentionally replaced visually by the same
+    // region below through the dedicated footer handling in buildPowerPoint.
+  }
+
+  return B.audit();
+}
+
+/* ============================================================
+   9. SPEAKER NOTES AND PPTX CONSTRUCTION
+   ============================================================ */
+
+function notesFor(s, index, timing, snapshot) {
+  const lines = [
+    `SLIDE ${index + 1}: ${index === 0 ? snapshot.meta.title : s.title}`,
+    `PACING GUIDE: ${timing.label} (${s.seconds} seconds; no automatic advance)`,
+    "",
+    "KEY MESSAGE",
+    s.message,
+    "",
+    "SUGGESTED NARRATION",
+    s.script,
+    "",
+    "TALKING POINTS",
+    ...s.points.map(p => "• " + p),
+    "",
+    "VISUAL / EVIDENCE CUE",
+    s.cue,
+    "",
+    "EVIDENCE BOUNDARY",
+    s.boundary,
+    "",
+    "TRANSITION",
+    s.transition
+  ];
+
+  if (s.kind === "simulation") lines.push("", "CURRENT NATIVE CAPTION", snapshot.captions.simulation);
+  if (s.kind === "ai") lines.push("", "CURRENT NATIVE CAPTION", snapshot.captions.ai);
+  if (s.kind === "error") lines.push("", "CURRENT NATIVE CAPTION", snapshot.captions.error);
+  if (s.kind === "revision") {
+    lines.push("", "CURRENT NATIVE CAPTION", snapshot.captions.revision);
+    lines.push("", CONTENT.revisionLimit, CONTENT.equationText);
+  }
+
+  if (s.kind === "learning") {
+    lines.push("", "STUDENT-RESPONSE EVIDENCE");
+    lines.push(snapshot.feedback
+      ? "Presenter-supplied observation: " + snapshot.feedback.text +
+        "\nSource/context: " + snapshot.feedback.source
+      : CONTENT.noStudentVoice);
+  }
+
+  if (s.kind === "reflection") lines.push("", "IMPLEMENTED LESSON FOLLOW-UP", CONTENT.lessonEnd);
+  if (index === 0) lines.push("", CONTENT.eligibilityNote);
+
+  if (s.refs.length) {
+    lines.push("", "FRAMEWORK REFERENCES");
+    s.refs.forEach(id => {
+      const ref = CONTENT.references.find(r => r.id === id);
+      lines.push(`[${ref.id}] ${ref.title}`, ref.url);
+    });
+  }
+
+  lines.push("", "GENERAL EVIDENCE NOTE", CONTENT.evidenceNote);
+  return lines.join("\n");
+}
+
+function buildPowerPoint(snapshot) {
+  const pptx = new window.PptxGenJS();
+  pptx.defineLayout({
+    name: "SPOT_WIDE",
+    width: CONFIG.width,
+    height: CONFIG.height
+  });
+  pptx.layout = "SPOT_WIDE";
+  pptx.author = snapshot.meta.authorReal;
+  pptx.company = snapshot.meta.affiliationReal;
+  pptx.title = snapshot.meta.title;
+  pptx.subject = "SPOT: 10-minute school-developed teaching sharing for 2026";
+  pptx.revision = "1";
+  pptx.theme = {
+    headFontFace: CONFIG.font,
+    bodyFontFace: CONFIG.font,
+    lang: "en-GB"
+  };
+
+  const times = schedule();
+  const errors = [];
+  const warnings = [];
+  let objectCount = 0;
+
+  if (!times.length || times[times.length - 1].end !== 600) {
+    throw new Error("The slide timing configuration must total exactly 600 seconds.");
+  }
+
+  CONTENT.slides.forEach((s, i) => {
+    const slide = pptx.addSlide();
+    const result = drawSlide(pptx, slide, s, i, times[i], snapshot);
+    errors.push(...result.errors);
+    warnings.push(...result.warnings);
+    objectCount += result.count;
+    slide.addNotes(notesFor(s, i, times[i], snapshot));
+  });
+
+  return { pptx, errors, warnings, objectCount };
+}
+
+/* ============================================================
+   10. NATIVE DOCX OUTLINE
+   Not HTML renamed as DOCX: generated as an OOXML Word document.
+   ============================================================ */
+
+function buildWordOutline(snapshot) {
+  const D = window.docx;
+  const C = CONFIG.colors;
+  const times = schedule();
+  const children = [];
+
+  function paragraph(text, options = {}) {
+    const {
+      size = 22,
+      bold = false,
+      color = C.body,
+      ...rest
+    } = options;
+
+    return new D.Paragraph({
+      ...rest,
+      children: [
+        new D.TextRun({
+          text: String(text),
+          font: CONFIG.font,
+          size,
+          bold,
+          color
+        })
+      ]
+    });
+  }
+
+  function heading(text, level = 1, pageBreakBefore = false) {
+    return paragraph(text, {
+      heading: level === 1 ? D.HeadingLevel.HEADING_1 : D.HeadingLevel.HEADING_2,
+      size: level === 1 ? 30 : 25,
+      bold: true,
+      color: level === 1 ? C.navy : C.P,
+      keepNext: true,
+      pageBreakBefore,
+      spacing: { before: 240, after: 140 }
+    });
+  }
+
+  function bullet(text) {
+    return paragraph(text, {
+      bullet: { level: 0 },
+      spacing: { after: 90 }
+    });
+  }
+
+  function tableCell(text, width, isHeader) {
+    return new D.TableCell({
+      width: { size: width, type: D.WidthType.DXA },
+      shading: { fill: isHeader ? C.navy : C.white },
+      margins: { top: 100, bottom: 100, left: 110, right: 110 },
+      children: [
+        paragraph(text, {
+          size: 20,
+          bold: isHeader,
+          color: isHeader ? C.white : C.body,
+          spacing: { after: 0, line: 240 }
+        })
+      ]
+    });
+  }
+
+  function table(rows, widths) {
+    const border = { style: D.BorderStyle.SINGLE, size: 4, color: C.line };
+    return new D.Table({
+      width: { size: 100, type: D.WidthType.PERCENTAGE },
+      layout: D.TableLayoutType.FIXED,
+      columnWidths: widths,
+      borders: {
+        top: border, bottom: border, left: border, right: border,
+        insideHorizontal: border, insideVertical: border
+      },
+      rows: rows.map((row, i) => new D.TableRow({
+        tableHeader: i === 0,
+        cantSplit: true,
+        children: row.map((text, k) => tableCell(text, widths[k], i === 0))
+      }))
+    });
+  }
+
+  children.push(
+    paragraph(snapshot.meta.title, {
+      heading: D.HeadingLevel.TITLE,
+      size: 40,
+      bold: true,
+      color: C.navy,
+      spacing: { after: 220 },
+      keepNext: true
+    }),
+    paragraph("10-minute sharing outline and speaker guide", {
+      size: 28, color: C.P, spacing: { after: 180 }
+    }),
+    paragraph(snapshot.meta.scheme, { bold: true }),
+    paragraph("Presenter: " + snapshot.meta.author),
+    paragraph("School / affiliation: " + snapshot.meta.affiliation),
+    paragraph("Context: " + CONTENT.context + ". " + CONTENT.topics),
+    paragraph("Format: 11 main slides, 16:9 widescreen. Target duration: 10:00, excluding Q&A."),
+    paragraph(
+      "Use this as a rehearsal guide. Narration is a suggested draft, not a record " +
+      "of measured outcomes. Slide timings are planning targets, not automatic transitions.",
+      { color: C.muted, size: 20 }
+    ),
+    heading("Purpose and scope"),
+    paragraph(
+      "Share the school-developed SPOT lesson design, explain where GenAI is used, " +
+      "examine visible student actions through Scientific Practices, and identify " +
+      "practical refinements and evidence needed in the next cycle."
+    ),
+    paragraph(CONTENT.eligibilityNote + " [R4]", { color: C.muted, size: 20 }),
+    paragraph(CONTENT.evidenceNote, { color: C.muted, size: 20 }),
+    heading("Timed running order")
+  );
+
+  const timingRows = [["Slide", "Time / duration", "Focus"]];
+  CONTENT.slides.forEach((s, i) => {
+    timingRows.push([
+      String(i + 1),
+      times[i].label + "\n" + s.seconds + " seconds",
+      (i === 0 ? snapshot.meta.title : s.title) + "\n" + s.message
+    ]);
+  });
+  children.push(table(timingRows, [650, 1900, 7356]));
+
+  children.push(
+    heading("Slide-by-slide speaker outline", 1, true),
+    paragraph(
+      "The suggested narration below is also embedded in the PPTX speaker notes. " +
+      "Framework references and evidence boundaries are presenter guidance, not " +
+      "additional text that must all be read aloud.",
+      { size: 20, color: C.muted }
+    )
+  );
+
+  CONTENT.slides.forEach((s, i) => {
+    children.push(
+      heading(
+        `${i + 1}. ${i === 0 ? snapshot.meta.title : s.title} — ` +
+        `${times[i].label} (${s.seconds}s)`, 2
+      ),
+      paragraph("Key message: " + s.message, { bold: true }),
+      ...s.points.map(bullet),
+      paragraph("Show / point to: " + s.cue, { size: 20, color: C.muted }),
+      paragraph("Suggested narration", { size: 20, bold: true, keepNext: true }),
+      paragraph(s.script),
+      paragraph("Transition: " + s.transition, { size: 20, color: C.P }),
+      paragraph("Evidence boundary: " + s.boundary, { size: 20, color: C.muted })
+    );
+
+    const captionMap = {
+      simulation: "simulation",
+      ai: "ai",
+      error: "error",
+      revision: "revision"
+    };
+    if (captionMap[s.kind]) {
+      children.push(paragraph(
+        "Current slide caption: " + snapshot.captions[captionMap[s.kind]],
+        { size: 20 }
+      ));
+    }
+    if (s.kind === "revision") {
+      children.push(paragraph(CONTENT.equationText, {
+        size: 24, bold: true, color: C.T
+      }));
+      children.push(paragraph(CONTENT.revisionLimit, {
+        size: 20, color: C.muted
+      }));
+    }
+    if (s.kind === "learning") {
+      children.push(paragraph(
+        snapshot.feedback
+          ? "Presenter-supplied qualitative response: " + snapshot.feedback.text +
+            "\nSource / context: " + snapshot.feedback.source
+          : CONTENT.noStudentVoice,
+        { size: 20, color: C.P }
+      ));
+    }
+    if (s.kind === "reflection") {
+      children.push(paragraph("Implemented follow-up: " + CONTENT.lessonEnd));
+    }
+    if (s.refs.length) {
+      children.push(paragraph(
+        "Framework references: " + s.refs.map(id => "[" + id + "]").join(" "),
+        { size: 20, color: C.muted }
+      ));
+    }
+  });
+
+  children.push(
+    heading("Evidence inventory and handling", 1, true),
+    paragraph(
+      "Images are embedded in the PowerPoint only; this outline records the slots " +
+      "and intended evidence. No handwriting has been reconstructed. Missing images " +
+      "remain clearly marked placeholders in the PPTX."
+    )
+  );
+
+  const evidenceRows = [["Evidence slot", "Current file / export state"]];
+  ASSET_SPECS.forEach(spec => {
+    const asset = snapshot.assets[spec.id];
+    evidenceRows.push([
+      spec.title,
+      asset.processed
+        ? `${asset.name}\nSelected pixels: ${asset.processed.width} × ${asset.processed.height}. ` +
+          (asset.approved ? "Marked as inspected." : "Not marked as inspected.")
+        : "Missing image — editable placeholder in PPTX."
+    ]);
+  });
+  children.push(table(evidenceRows, [3300, 6606]));
+
+  children.push(
+    paragraph(
+      "Matched-pair rule: the initial and revised models must come from the same " +
+      "documented before/after pair. The first-attempt photograph under the separate " +
+      "chatbot screenshot is not the initial image for this pair.",
+      { size: 20, color: C.muted }
+    ),
+    heading("Diagnostic categories"),
+    ...CONTENT.categories.map(bullet),
+    paragraph(
+      "No category frequencies or proportions are reported. The class size of 30 " +
+      "must not be used as an error-coding denominator.",
+      { size: 20, color: C.muted }
+    ),
+    heading("Suggested next-cycle evaluation"),
+    ...CONTENT.futureEvaluation.map(bullet),
+    heading("Final review checklist"),
+    ...CONTENT.review.map(text => paragraph("□ " + text, { size: 20 })),
+    heading("References", 1, true),
+    paragraph(
+      "Classroom evidence source: presenter-supplied, anonymised student artefacts " +
+      "and teacher analysis of chat records. The references below support the " +
+      "framework alignment, not the reported classroom outcomes.",
+      { size: 20, color: C.muted }
+    )
+  );
+
+  CONTENT.references.forEach(ref => {
+    children.push(
+      paragraph(`[${ref.id}] ${ref.title}`, { bold: true, keepNext: true }),
+      paragraph(ref.url, { size: 18, color: C.P })
+    );
+  });
+
+  children.push(
+    paragraph(
+      "Generation note: PPTX created with pinned PptxGenJS 4.0.1; DOCX created " +
+      "with pinned docx 9.5.1. Office rendering, PDF export, image legibility and " +
+      "submission requirements must be checked manually.",
+      { size: 18, color: C.muted }
+    )
+  );
+
+  const footer = new D.Footer({
+    children: [
+      paragraph("SPOT • 2026 teaching sharing outline", {
+        size: 18,
+        color: C.muted,
+        alignment: D.AlignmentType.RIGHT
+      })
+    ]
+  });
+
+  return new D.Document({
+    creator: snapshot.meta.authorReal,
+    title: snapshot.meta.title + " — Sharing Outline",
+    description: "Timed 10-minute SPOT presentation outline and speaker guide",
+    styles: {
+      default: {
+        document: {
+          run: { font: CONFIG.font, size: 22, color: C.body },
+          paragraph: { spacing: { after: 120, line: 276 } }
+        },
+        title: { run: { font: CONFIG.font, size: 40, bold: true, color: C.navy } },
+        heading1: { run: { font: CONFIG.font, size: 30, bold: true, color: C.navy } },
+        heading2: { run: { font: CONFIG.font, size: 25, bold: true, color: C.P } }
+      }
+    },
+    sections: [{
+      properties: {
+        page: {
+          size: { width: 11906, height: 16838 },
+          margin: { top: 1000, bottom: 1000, left: 1000, right: 1000 }
+        }
+      },
+      footers: { default: footer },
+      children
+    }]
+  });
+}
+
+/* ============================================================
+   11. WARNINGS, DOWNLOADS AND EXPORT CONTROL
+   ============================================================ */
+
+function exportWarnings(type) {
+  const warnings = [];
+
+  if (!$("author").value.trim()) warnings.push("Presenter is missing; a visible placeholder will be used.");
+  if (!$("affiliation").value.trim()) warnings.push("School / affiliation is missing; a visible placeholder will be used.");
+  if (!$("scheme").value.trim()) warnings.push("No exact scheme / event name supplied; the generic 2026 sharing label will be used.");
+
+  const partialFeedback = $("feedback").value.trim() || $("feedbackSource").value.trim();
+  const validFeedback =
+    $("feedback").value.trim() &&
+    $("feedbackSource").value.trim() &&
+    $("feedbackConfirmed").checked;
+  if (partialFeedback && !validFeedback) {
+    warnings.push("The optional qualitative response is incomplete or unconfirmed and will be omitted.");
+  }
+
+  if (type === "pptx") {
+    ASSET_SPECS.forEach(spec => {
+      const asset = STATE.assets[spec.id];
+      if (!asset.processed) {
+        warnings.push(spec.title + ": missing; an editable placeholder will be exported.");
+      } else {
+        if (!asset.approved) warnings.push(spec.title + ": not marked as inspected.");
+        const ppi = effectivePixelsPerInch(spec.id, asset.processed);
+        if (ppi < CONFIG.recommendedPixelsPerInch) {
+          warnings.push(
+            `${spec.title}: approximately ${Math.round(ppi)} source pixels per slide inch; ` +
+            "inspect small details carefully."
+          );
+        }
+      }
+    });
+
+    const initial = Boolean(STATE.assets.initialModelImage.processed);
+    const revised = Boolean(STATE.assets.revisedModelImage.processed);
+    if (initial !== revised) {
+      warnings.push("Only one image of the matched initial/revised pair is supplied.");
+    }
+  }
+
+  return warnings;
+}
+
+function setBusy(busy) {
+  STATE.busy = busy;
+  document.body.classList.toggle("busy", busy);
+  document.querySelectorAll("input, textarea, button").forEach(control => {
+    control.disabled = busy;
+  });
+  refreshChecks();
+}
+
+function offerDownload(blob, filename) {
+  const previous = STATE.downloads.get(filename);
+  if (previous) {
+    URL.revokeObjectURL(previous.url);
+    previous.link.remove();
+  }
+
+  const url = URL.createObjectURL(blob);
+  const link = node("a", filename, "download-link");
+  link.href = url;
+  link.download = filename;
+  $("downloads").appendChild(link);
+  STATE.downloads.set(filename, { url, link });
+
+  // Keep the link available if the automatic download is blocked.
+  link.click();
+}
+
+async function exportFile(type) {
+  if (STATE.busy) return;
+  if (!DEPENDENCIES[type].ready()) {
+    setStatus("The required library is not ready. Check the connection and retry.", "error");
+    return;
+  }
+  if (!$("presentationTitle").value.trim()) {
+    setStatus("Enter a presentation title before exporting.", "error");
+    return;
+  }
+
+  if (type === "pptx") {
+    const invalid = ASSET_SPECS.filter(spec => {
+      const a = STATE.assets[spec.id];
+      return a.error || a.dirty || a.loading;
+    });
+    if (invalid.length) {
+      setStatus(
+        "Apply, correct or remove these images/crops before PowerPoint export:\n" +
+        invalid.map(spec => "• " + spec.title).join("\n"),
+        "error"
+      );
+      return;
+    }
+  }
+
+  const warnings = exportWarnings(type);
+  if (warnings.length && !window.confirm(
+    "Before export:\n\n" +
+    warnings.map(w => "• " + w).join("\n") +
+    "\n\nContinue with these warnings?"
+  )) {
+    setStatus("Export cancelled. Update the details or evidence and try again.");
+    return;
+  }
+
+  const snapshot = getSnapshot();
+  setBusy(true);
+  setStatus(type === "pptx"
+    ? "Building editable slide objects and speaker notes…"
+    : "Building the Word outline and timed running order…");
+
+  await new Promise(resolve => setTimeout(resolve, 40));
+
+  try {
+    if (type === "pptx") {
+      const result = buildPowerPoint(snapshot);
+
+      if (result.errors.length) {
+        throw new Error(
+          "PowerPoint export stopped because of geometry errors:\n\n" +
+          result.errors.join("\n")
+        );
+      }
+
+      // Remove the deliberately replaced normal footer from revision-slide
+      // overlap warnings. This is a known intentional footer replacement,
+      // not an image/text collision.
+      const layoutWarnings = result.warnings.filter(message =>
+        !message.includes("Footer source / Revision evidence limit")
+      );
+
+      if (layoutWarnings.length && !window.confirm(
+        "Layout estimates require review:\n\n" +
+        layoutWarnings.slice(0, 18).join("\n") +
+        (layoutWarnings.length > 18
+          ? `\n…and ${layoutWarnings.length - 18} more warning(s).`
+          : "") +
+        "\n\nNo font sizes have been reduced. Continue and inspect the PPTX manually?"
+      )) {
+        setStatus("Export cancelled after layout review. Shorten edited text or adjust its layout box.");
+        return;
+      }
+
+      setStatus("Packaging the PowerPoint…");
+      const blob = await result.pptx.write({
+        outputType: "blob",
+        compression: true
+      });
+
+      offerDownload(blob, CONFIG.pptxName);
+      setStatus(
+        `Generated ${CONFIG.pptxName}\n` +
+        `${CONTENT.slides.length} editable widescreen slides; 10:00 suggested pacing.\n` +
+        "Speaker notes include narration, transitions, references and evidence boundaries.\n\n" +
+        "A download was requested. Use the file link below if needed. " +
+        "Open the PPTX to inspect wrapping, equations, crops and image legibility.",
+        "success"
+      );
+    } else {
+      const doc = buildWordOutline(snapshot);
+      const blob = await window.docx.Packer.toBlob(doc);
+      offerDownload(blob, CONFIG.docxName);
+
+      setStatus(
+        `Generated ${CONFIG.docxName}\n` +
+        "Includes the timed running order, slide-by-slide talking points, " +
+        "suggested narration, evidence inventory, review checklist and references.\n\n" +
+        "A download was requested. Use the file link below if needed. " +
+        "Inspect pagination and editable content in Word.",
+        "success"
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    setStatus(
+      error && error.message
+        ? error.message
+        : "Export failed. Check the library status and try a smaller image file.",
+      "error"
+    );
+  } finally {
+    setBusy(false);
+  }
+}
+
+/* ============================================================
+   12. STARTUP
+   ============================================================ */
+
+initialiseInterface();
+loadLibraries();
+
+window.addEventListener("beforeunload", () => {
+  for (const item of STATE.downloads.values()) URL.revokeObjectURL(item.url);
+});
+</script>
+</body>
+</html>
